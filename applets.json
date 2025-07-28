@@ -3,15 +3,15 @@
     
     {
     "Name":"Bot Management",
-    "URL":"botmanagement.html"
+    "URL":"/botmanagement/botmanagement.html"
     },
     {
     "Name":"Blatant ChatGPT Wrapper",
-    "URL":"chat.html"
+    "URL":"/chat/chat.html"
     },
     {
     "Name":"VRChat Stats",
-    "URL":"vrcstats.html"
+    "URL":"/vrcstats/vrcstats.html"
     }
 
     ]   
