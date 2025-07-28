@@ -1,0 +1,19 @@
+{
+    "applets":[
+    
+    {
+    "Name":"Bot Management",
+    "URL":"botmanagement.html"
+    },
+    {
+    "Name":"Blatant ChatGPT Wrapper",
+    "URL":"chat.html"
+    },
+    {
+    "Name":"VRChat Stats",
+    "URL":"vrcstats.html"
+    }
+
+    ]   
+
+}

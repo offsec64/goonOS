@@ -27,13 +27,7 @@
                 <a class="pagelist_item active">Blatant ChatGPT Wrapper</a>
                 <a class="pagelist_item">VRChat Stats</a>
             </div>
-
-
-
-
-
-
-
+            <iframe src="https://chatgpt.com/" class="applet"></iframe>
         </div>
 
         <div id="footer">
@@ -43,5 +37,28 @@
         </div>
         
     </body>
+
+
+
+
+
+    <script>
+        
+        
+        let jsondata;    
+        fetch('applets.json')
+            .then(function(u) { 
+                return u.json();
+            })
+            .then(function(json) {
+                jsondata = json;
+                console.log(jsondata); 
+                // ADD STUFF
+            })
+            .catch(function(error) {
+                console.error('Error fetching or parsing JSON:', error);
+            });
+
+    </script>
 
 </html>
