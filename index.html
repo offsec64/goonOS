@@ -42,35 +42,48 @@
 
     <script>
         
-        
+        let numapplets = 0;
         let jsondata;    
         fetch('applets.json')
-            .then(function(u) { 
+            .then(function(u) {
                 return u.json();
             })
             .then(function(json) {
+                let id = 0;
                 jsondata = json;
                 for (const [key, value] of Object.entries(jsondata["applets"])) {
                     let data = (key, value);
                     const item = document.createElement("a");
                     item.classList.add("pagelist_item");
-                    
+                    item.id = "appletid" + id;
                     item.innerHTML = data["Name"];
 
-                    item.setAttribute("onclick","loadApplet(\"" + data["URL"] + "\")");
+                    item.setAttribute("onclick","loadApplet(\"" + data["URL"] + "\", " + id + ")");
                     
 
                     const element = document.getElementById("pagelist");
                     element.appendChild(item);
+                    id++;
                 }
+                numapplets=id;
             })
             .catch(function(error) {
                 console.error('Error fetching or parsing JSON:', error);
             });
 
 
-        function loadApplet(url) {
+        function loadApplet(url, id) {
+
+            for (let step = 0; step < numapplets; step++) {
+                var listitem = document.getElementById("appletid" + step);
+                listitem.classList.remove("active");
+            }
+
             document.getElementById("applet_embed").src = "/applets/" + url;
+
+            var listitem = document.getElementById("appletid" + id);
+
+            listitem.className = listitem.className + ' active';
         }
         
 
