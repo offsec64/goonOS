@@ -39,6 +39,17 @@
     <!--add custom right click menu-->
 
 
+    <!--very fake loading screen-->
+    <div id="pagecover">
+        <div class="flexspacer"></div>
+        <div id="loading">
+            <a id="logo">GoonOS</a>
+            <a id="loadtext">Loading.... Procuring Dependancies</a>
+            <div class="flexspacer"></div>
+            <a>v1 Alpha</a>
+        </div>
+        <div class="flexspacer"></div>
+    </div>
 
     <script>
         
@@ -87,6 +98,20 @@
         }
         
 
+
+
+        // fake loading screen
+        setTimeout(() => {
+            var x = document.getElementById("loadtext").innerHTML = "Loading.... Recompiling Linux Kernal";
+        }, 1300);
+
+        setTimeout(() => {
+            var x = document.getElementById("loadtext").innerHTML = "Loading.... Synergizing and Streamlining";
+        }, 3000);
+
+        setTimeout(() => {
+            var x = document.getElementById("pagecover");x.style.display = "none";
+        }, 4000);
     </script>
 
 </html>

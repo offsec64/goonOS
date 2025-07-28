@@ -88,3 +88,28 @@ body{
 .applet{
     width: 100%
 }
+
+#pagecover{
+    width:100%;
+    height:100%;
+    background-color: white;
+    position: absolute;
+    z-index: 0;
+    align-items: center;
+}
+
+#loading{
+    position: relative;
+    width:400px;
+    height:300px;
+    background-color: aliceblue;
+    margin: auto;
+    text-align: center;
+    top:30%;
+    display: flex;
+    flex-direction: column;
+}
+
+#loading #logo{
+    font-size: 4em;
+}
