@@ -23,9 +23,7 @@
         <!-- Main Window -->
         <div id="pagestructure">
             <div id="pagelist">
-                <a class="pagelist_item">Bot Management</a>
-                <a class="pagelist_item active">Blatant ChatGPT Wrapper</a>
-                <a class="pagelist_item">VRChat Stats</a>
+                <!--Content will be automatically added according to applets.json-->
             </div>
             <iframe src="https://chatgpt.com/" class="applet"></iframe>
         </div>
@@ -52,8 +50,19 @@
             })
             .then(function(json) {
                 jsondata = json;
-                console.log(jsondata); 
                 // ADD STUFF
+                for (const [key, value] of Object.entries(jsondata["applets"])) {
+                    let data = (key, value);
+                    const item = document.createElement("a");
+                    item.classList.add("pagelist_item");
+                    
+                    item.innerHTML = data["Name"];
+
+                    item.href=data["URL"]; // Not the way to do this, have clicking load a function and pass this URL through??
+
+                    const element = document.getElementById("pagelist");
+                    element.appendChild(item);
+                }
             })
             .catch(function(error) {
                 console.error('Error fetching or parsing JSON:', error);
