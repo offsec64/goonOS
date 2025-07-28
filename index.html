@@ -25,7 +25,7 @@
             <div id="pagelist">
                 <!--Content will be automatically added according to applets.json-->
             </div>
-            <iframe src="https://chatgpt.com/" class="applet"></iframe>
+            <iframe src="https://chatgpt.com/" class="applet" id="applet_embed"></iframe>
         </div>
 
         <div id="footer">
@@ -36,7 +36,7 @@
         
     </body>
 
-
+    <!--add custom right click menu-->
 
 
 
@@ -50,7 +50,6 @@
             })
             .then(function(json) {
                 jsondata = json;
-                // ADD STUFF
                 for (const [key, value] of Object.entries(jsondata["applets"])) {
                     let data = (key, value);
                     const item = document.createElement("a");
@@ -58,7 +57,8 @@
                     
                     item.innerHTML = data["Name"];
 
-                    item.href=data["URL"]; // Not the way to do this, have clicking load a function and pass this URL through??
+                    item.setAttribute("onclick","loadApplet(\"" + data["URL"] + "\")");
+                    
 
                     const element = document.getElementById("pagelist");
                     element.appendChild(item);
@@ -67,6 +67,12 @@
             .catch(function(error) {
                 console.error('Error fetching or parsing JSON:', error);
             });
+
+
+        function loadApplet(url) {
+            document.getElementById("applet_embed").src = "/applets/" + url;
+        }
+        
 
     </script>
 
