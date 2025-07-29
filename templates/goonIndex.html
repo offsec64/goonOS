@@ -96,33 +96,34 @@
             });
         */
        
-        const item = document.createElement("a")
-        item.classList.add("pagelist_item")
-        item.id = "appletid" + 1
-        item.innerHTML = "Chat"
+        const item = document.createElement("a");
+        item.classList.add("pagelist_item");
+        item.id = "appletid" + 1;
+        item.innerHTML = "Chat";
 
-        item.setAttribute("onclick", document.getElementById("applet_embed").src = "/chat.html")
+        item.setAttribute("onclick", loadApplet())
 
         const element = document.getElementById("pagelist");
         element.appendChild(item);
 
         //loadApplet("/chat.html", 1)
 
-        /*
-        function loadApplet(url, id) {
+    
+        function loadApplet() {
 
-            for (let step = 0; step < numapplets; step++) {
-                var listitem = document.getElementById("appletid" + step);
-                listitem.classList.remove("active");
-            }
+            //for (let step = 0; step < numapplets; step++) {
 
-            document.getElementById("applet_embed").src = url;
+                //var listitem = document.getElementById("appletid" + step);
+                //listitem.classList.remove("active");
+
+            //}
+
+            document.getElementById("applet_embed").src = "/chat.html";
 
             var listitem = document.getElementById("appletid" + id);
 
             listitem.className = listitem.className + ' active';
         }
-        */
 
 
 
