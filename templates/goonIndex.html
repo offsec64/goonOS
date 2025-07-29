@@ -101,14 +101,16 @@
         item.id = "appletid" + 1;
         item.innerHTML = "Chat";
 
-        item.setAttribute("onclick", loadApplet())
+        //item.setAttribute("onclick", loadApplet())
 
         const element = document.getElementById("pagelist");
         element.appendChild(item);
 
+        document.getElementById("applet_embed").src = "/chat.html"
+
         //loadApplet("/chat.html", 1)
 
-    
+        /*
         function loadApplet() {
 
             //for (let step = 0; step < numapplets; step++) {
@@ -124,7 +126,7 @@
 
             listitem.className = listitem.className + ' active';
         }
-
+        /*
 
 
         // fake loading screen
