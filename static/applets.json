@@ -7,7 +7,7 @@
     },
     {
     "Name":"Blatant ChatGPT Wrapper",
-    "URL":"/chat.html"
+    "URL":"/{{ url_for('chat') }}"
     },
     {
     "Name":"VRChat Stats",
