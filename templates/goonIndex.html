@@ -57,8 +57,7 @@
         let jsondata;   
 
         /* 
-        console.log("{{ url_for('static', filename='applets.json') }}")
-        fetch("{{ url_for('static', filename='applets.json') }}")
+        fetch("")
             .then(function(u) {
                 return u.json();
             })
@@ -72,7 +71,6 @@
                     item.id = "appletid" + id;
                     item.innerHTML = data["Name"];
 
-                    let path = `{{ url_for('${data["FileName"]}') }}`
 
                     item.setAttribute("onclick",`loadApplet( ${path}, ${id})`);
                     
