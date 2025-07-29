@@ -69,7 +69,7 @@
                     item.id = "appletid" + id;
                     item.innerHTML = data["Name"];
 
-                    item.setAttribute("onclick","loadApplet(\"" + `{{ url_for('${data["FileName"]}') }}` + "\", " + id + ")");
+                    item.setAttribute("onclick","loadApplet(\"" + `{{ url_for(${data["FileName"]}) }}` + "\", " + id + ")");
                     
 
                     const element = document.getElementById("pagelist");
