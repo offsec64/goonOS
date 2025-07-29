@@ -53,8 +53,10 @@
 
     <script>
         
-        let numapplets = 0;
-        let jsondata;    
+        let numapplets = 1;
+        let jsondata;   
+
+        /* 
         console.log("{{ url_for('static', filename='applets.json') }}")
         fetch("{{ url_for('static', filename='applets.json') }}")
             .then(function(u) {
@@ -84,7 +86,9 @@
             .catch(function(error) {
                 console.error('Error fetching or parsing JSON:', error);
             });
+        */
 
+        loadapplet("chat.html", 1)
 
         function loadApplet(url, id) {
 
