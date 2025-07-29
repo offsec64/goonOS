@@ -3,27 +3,27 @@
     
     {
     "Name":"Bot Management",
-    "URL":"/botmanagement.html"
+    "FileName":"botmanagement"
     },
     {
     "Name":"Blatant ChatGPT Wrapper",
-    "URL":"/{{ url_for('chat') }}"
+    "FileName":"chat"
     },
     {
     "Name":"VRChat Stats",
-    "URL":"/vrcstats.html"
+    "FileName":"vrcstats"
     },
     {
     "Name":"4",
-    "URL":"#"
+    "FileName":"#"
     },
     {
     "Name":"5",
-    "URL":"#"
+    "FileName":"#"
     },
     {
     "Name":"6",
-    "URL":"#"
+    "FileName":"#"
     }
     
     
