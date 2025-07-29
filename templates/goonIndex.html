@@ -52,7 +52,17 @@
     </div>
 
     <script>
+
+        /*alright so what i thing im going to do is for the applet list is:
+            - load the contents of the json into an array
+            - build the elements based off array data
+            - append to applet list
+
+        why did you code it like you did simon :( 
         
+        -jd
+        */
+
         let numapplets = 1;
         let jsondata;   
 
@@ -90,6 +100,8 @@
         item.classList.add("pagelist_item")
         item.id = "appletid" + 1
         item.innerHTML = "Chat"
+
+        item.setAttribute("onclick", document.getElementById("applet_embed").src = "/chat.html")
 
         const element = document.getElementById("pagelist");
         element.appendChild(item);
