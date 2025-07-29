@@ -55,7 +55,7 @@
         
         let numapplets = 0;
         let jsondata;    
-        fetch('applets.json')
+        fetch('./static/applets/applets.json')
             .then(function(u) {
                 return u.json();
             })
