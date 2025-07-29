@@ -91,6 +91,9 @@
         item.id = "appletid" + 1
         item.innerHTML = "Chat"
 
+        const element = document.getElementById("pagelist");
+        element.appendChild(item);
+        
         loadApplet("/chat.html", 1)
 
         function loadApplet(url, id) {
