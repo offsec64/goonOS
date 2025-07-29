@@ -25,7 +25,7 @@
             <div id="pagelist">
                 <!--Content will be automatically added according to applets.json-->
             </div>
-            <iframe src="./templates/applets/" class="applet" id="applet_embed"></iframe>
+            <iframe src="./appletsindex.html" class="applet" id="applet_embed"></iframe>
         </div>
 
         <div id="footer">
@@ -90,7 +90,7 @@
                 listitem.classList.remove("active");
             }
 
-            document.getElementById("applet_embed").src = "./templates/applets" + url;
+            document.getElementById("applet_embed").src = url;
 
             var listitem = document.getElementById("appletid" + id);
 
