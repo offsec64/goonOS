@@ -55,6 +55,7 @@
         
         let numapplets = 0;
         let jsondata;    
+        print("{{ url_for('static', filename='applets.json') }}")
         fetch("{{ url_for('static', filename='applets.json') }}")
             .then(function(u) {
                 return u.json();
