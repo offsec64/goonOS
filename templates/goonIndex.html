@@ -85,8 +85,13 @@
                 console.error('Error fetching or parsing JSON:', error);
             });
         */
+       
+        const item = document.createElement("a")
+        item.classList.add(pagelist_item)
+        item.id = "appletid" + 1
+        item.innerHTML = "Chat"
 
-        loadapplet("chat.html", 1)
+        loadapplet("/chat.html", 1)
 
         function loadApplet(url, id) {
 
