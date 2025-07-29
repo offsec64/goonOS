@@ -106,7 +106,7 @@
         const element = document.getElementById("pagelist");
         element.appendChild(item);
 
-        document.getElementById("applet_embed").src = "/chat.html"
+        item.setAttribute("onclick", document.getElementById("applet_embed").src = "{{ url_for(chat) }}");
 
         //loadApplet("/chat.html", 1)
 
