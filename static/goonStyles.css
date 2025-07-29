@@ -1,0 +1,115 @@
+html {
+    height: 100%;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body{
+    padding: 0;
+    margin: 0;
+    display:flex;
+    flex-direction: column;
+    position: relative;
+    height:100%
+}
+
+#menubar {
+    background-color: rgb(225, 225, 225);
+    background: linear-gradient(180deg,rgba(255, 255, 255, 1) 1%, rgba(191, 191, 191, 1) 100%);
+    padding: 10px;
+    display: flex; 
+}
+
+#logo {
+    font-family: "Racing Sans One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    background-image: linear-gradient(0deg,rgba(0, 0, 0, 1) 0%, rgba(0, 255, 0, 1) 100%);
+    color: transparent;
+    background-clip: text;
+    font-size:2em;
+}
+
+.accent-text{
+    border: 1px solid black;
+    border-radius:20px;
+    height: 10px;
+    width: fit-content;
+    padding: 2px 20px 6px 20px;
+    font-size: auto;
+    font-size: .8em;
+    margin-top: 10px;
+    margin-left: 5px;;
+    font-weight: 600;
+}
+
+.flexspacer{
+    flex-grow: 1;
+}
+
+#pagestructure {
+    display:flex;
+    height:fit-content;
+    flex-grow: 1;
+}
+
+#pagelist {
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid black;
+    height: 100%;
+    width: 33%;
+}
+
+.pagelist_item{
+    padding: 2px 0px 2px 10px;
+    color: black;
+    text-decoration: none;
+}
+
+.pagelist_item:hover{
+    background-color: rgb(183, 183, 183);
+}
+
+.active{
+    padding: 2px 0px 2px 10px;
+    background: linear-gradient(180deg,rgba(184, 223, 252, 1) 0%, rgba(97, 189, 255, 1) 95%);
+}
+
+.active:hover{
+    background: linear-gradient(180deg,rgba(158, 196, 217, 1) 0%, rgba(78, 153, 207, 1) 95%);
+}
+
+#footer{
+    background: linear-gradient(180deg,rgba(255, 255, 255, 1) 1%, rgba(191, 191, 191, 1) 100%);
+    padding: 1px 5px 1px 5px;
+    display: flex;
+}
+
+.applet{
+    width: 100%
+}
+
+#pagecover{
+    width:100%;
+    height:100%;
+    background-color: white;
+    position: absolute;
+    z-index: 0;
+    align-items: center;
+}
+
+#loading{
+    position: relative;
+    width:400px;
+    height:300px;
+    background-color: aliceblue;
+    margin: auto;
+    text-align: center;
+    top:30%;
+    display: flex;
+    flex-direction: column;
+}
+
+#loading #logo{
+    font-size: 4em;
+}

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <title>GoonOS Alpha 1</title>
+        <link rel="stylesheet" href="./static/goonStyles.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
+    </head>
+
+    <body>
+        <div id="menubar">
+            <a id="logo">GoonOS</a>
+            <a class="accent-text">Alpha 1</a>
+            <div class="flexspacer"></div>
+
+        </div>
+
+        <!-- Main Window -->
+        <div id="pagestructure">
+            <div id="pagelist">
+                <!--Content will be automatically added according to applets.json-->
+            </div>
+            <iframe src="./static/applets/" class="applet" id="applet_embed"></iframe>
+        </div>
+
+        <div id="footer">
+            <a>Pre-release software. Do not distribute!</a>
+            <div class="flexspacer"></div>
+            <a>v1 Alpha</a>
+        </div>
+        
+    </body>
+
+    <!--add custom right click menu-->
+
+
+    <!--very fake loading screen-->
+    <div id="pagecover">
+        <div class="flexspacer"></div>
+        <div id="loading">
+            <a id="logo">GoonOS</a>
+            <a id="loadtext">Loading.... Procuring Dependancies</a>
+            <div class="flexspacer"></div>
+            <a>v1 Alpha</a>
+        </div>
+        <div class="flexspacer"></div>
+    </div>
+
+    <script>
+        
+        let numapplets = 0;
+        let jsondata;    
+        fetch('applets.json')
+            .then(function(u) {
+                return u.json();
+            })
+            .then(function(json) {
+                let id = 0;
+                jsondata = json;
+                for (const [key, value] of Object.entries(jsondata["applets"])) {
+                    let data = (key, value);
+                    const item = document.createElement("a");
+                    item.classList.add("pagelist_item");
+                    item.id = "appletid" + id;
+                    item.innerHTML = data["Name"];
+
+                    item.setAttribute("onclick","loadApplet(\"" + data["URL"] + "\", " + id + ")");
+                    
+
+                    const element = document.getElementById("pagelist");
+                    element.appendChild(item);
+                    id++;
+                }
+                numapplets=id;
+            })
+            .catch(function(error) {
+                console.error('Error fetching or parsing JSON:', error);
+            });
+
+
+        function loadApplet(url, id) {
+
+            for (let step = 0; step < numapplets; step++) {
+                var listitem = document.getElementById("appletid" + step);
+                listitem.classList.remove("active");
+            }
+
+            document.getElementById("applet_embed").src = "/applets/" + url;
+
+            var listitem = document.getElementById("appletid" + id);
+
+            listitem.className = listitem.className + ' active';
+        }
+        
+
+
+
+        // fake loading screen
+        setTimeout(() => {
+            var x = document.getElementById("loadtext").innerHTML = "Loading.... Recompiling Linux Kernal";
+        }, 1300);
+
+        setTimeout(() => {
+            var x = document.getElementById("loadtext").innerHTML = "Loading.... Synergizing and Streamlining";
+        }, 3000);
+
+        setTimeout(() => {
+            var x = document.getElementById("pagecover");x.style.display = "none";
+        }, 4000);
+    </script>
+
+</html>
