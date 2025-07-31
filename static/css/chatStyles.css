@@ -1,0 +1,44 @@
+html{
+    height: 100%;
+}
+
+body{
+    font-family: "Lexend", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+#welcometext{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 100px;
+}
+.header {
+    font-size: 1.8em;
+}
+
+.subheading{
+    font-size: 1.2em;
+}
+
+#textinputwrapper{
+    display: flex;
+    flex-direction: row;
+    margin: 0px 0px 15px 0px;
+}
+
+#textinput{
+    width:90%;
+    border: 1.5px solid black;
+    border-radius: 10px;
+    height:40px;
+}
+
+.flexspacer{
+    flex-grow: 1;
+}
+
