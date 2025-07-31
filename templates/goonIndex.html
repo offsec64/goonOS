@@ -53,16 +53,7 @@
 
     <script>
 
-        /*alright so what i thing im going to do is for the applet list is:
-            - load the contents of the json into an array
-            - build the elements based off array data
-            - append to applet list
-
-        why did you code it like you did simon :( 
-        
-        -jd
-        */
-
+        //Define route url's and names
         const routes = {
             botmanagement: {
                 url: "{{ url_for('botmanagement') }}",
@@ -80,6 +71,7 @@
 
         const element = document.getElementById("pagelist");
 
+        //Loop over entries in routes and create respective elements
         for (const key in routes) {
             let item = document.createElement('a')
             item.classList.add("pagelist_item");
@@ -90,83 +82,11 @@
             element.appendChild(item);
         }
         
+        //Load the iframe from the url provided in routes
         function loadIframe(routeName) {
             const iframe = document.getElementById("applet-iframe");
             iframe.src = routes[routeName].url;
         }
-
-
-        //let numapplets = 1;
-        //let jsondata;   
-
-        /*
-        fetch("{{ url_for('static', filename='json/applets.json') }}")
-            .then(function(u) {
-                return u.json();
-            })
-            .then(function(json) {
-                let id = 0;
-                jsondata = json;
-                for (const [key, value] of Object.entries(jsondata["applets"])) {
-                    let data = (key, value);
-                    const item = document.createElement("a");
-                    item.classList.add("pagelist_item");
-                    item.id = "appletid" + id;
-                    item.innerHTML = data["Name"];
-
-                    item.setAttribute("onclick",`loadApplet(, ${id})`);
-                    
-
-                    const element = document.getElementById("pagelist");
-                    element.appendChild(item);
-                    id++;
-                }
-                numapplets=id;
-            })
-            .catch(function(error) {
-                console.error('Error fetching or parsing JSON:', error);
-            });
-        */
-       
-
-        // -- working code --
-
-        /*
-        const item = document.createElement("a");
-        item.classList.add("pagelist_item");
-        item.id = "appletid" + 1;
-        item.innerHTML = "Chat";
-
-        //item.setAttribute("onclick", loadApplet())
-
-        const element = document.getElementById("pagelist");
-        element.appendChild(item);
-
-        item.setAttribute("onclick", document.getElementById("applet_embed").src = "{{ url_for('chat') }}");
-        */
-
-        // -------------------
-
-        //loadApplet("/chat.html", 1)
-
-        /*
-        function loadApplet(name, id) {
-
-            for (let step = 0; step < numapplets; step++) {
-
-                var listitem = document.getElementById("appletid" + step);
-                listitem.classList.remove("active");
-
-            }
-
-            document.getElementById("applet_embed").src = "/chat.html";
-
-            var listitem = document.getElementById("appletid" + 1);
-
-            listitem.className = listitem.className + ' active';
-        }
-        */
-
 
         // fake loading screen
         setTimeout(() => {
