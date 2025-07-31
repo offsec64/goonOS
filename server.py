@@ -18,6 +18,8 @@ OUTSIDE_PORT = os.getenv("OUTSIDE_PORT")
 ABSTRACT_API_KEY = os.getenv("ABSTRACT_API_KEY")
 PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 
+WEBAPP_VERSION = "1.3 ALPHA"
+
 app = Flask(__name__)
 
 def send_ip_to_discord(ip, data, user_agent_raw, method):
@@ -80,7 +82,7 @@ def index():
 
 @app.route("/goon", methods=["GET"])
 def goon():
-    return render_template("goonIndex.html")
+    return render_template("goonIndex.html", version=WEBAPP_VERSION)
 
 # IP revealer
 @app.route("/reveal", methods=["POST"])

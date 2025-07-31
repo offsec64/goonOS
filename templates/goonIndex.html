@@ -15,7 +15,7 @@
     <body>
         <div id="menubar">
             <a id="logo">GoonOS Gateway </a>
-            <a class="accent-text">Alpha 1.1</a>
+            <a class="accent-text">{{ version }}</a>
             <div class="flexspacer"></div>
 
         </div>
@@ -31,7 +31,7 @@
         <div id="footer">
             <a>Pre-release software. Do not distribute!</a>
             <div class="flexspacer"></div>
-            <a>v1.1 Alpha</a>
+            <a>{{ version }}</a>
         </div>
         
     </body>
@@ -46,7 +46,7 @@
             <a id="logo">GoonOS Gateway</a>
             <a id="loadtext">Loading.... Procuring Dependencies</a>
             <div class="flexspacer"></div>
-            <a>v1.1 Alpha</a>
+            <a>{{ version }}</a>
         </div>
         <div class="flexspacer"></div>
     </div>
@@ -90,7 +90,7 @@
 
         // fake loading screen
         setTimeout(() => {
-            var x = document.getElementById("loadtext").innerHTML = "Loading.... Recompiling Linux Kernal";
+            var x = document.getElementById("loadtext").innerHTML = "Loading.... Recompiling Linux Kernel";
         }, 1300);
 
         setTimeout(() => {
