@@ -1,3 +1,6 @@
+# This script runs a Flask server responsible for hosting the main GoonSoft website.
+# 
+
 from flask import Flask, request, jsonify, render_template
 import requests
 import os
@@ -7,6 +10,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 from user_agents import parse as parse_ua
 
+# Load environment variables from .env file
 load_dotenv()
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 DISCORD_CHANNEL_ID = os.getenv("DISCORD_IPADDRESS_CHANNEL")
@@ -16,8 +20,13 @@ PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 
 app = Flask(__name__)
 
-# Function to send IP data to Discord
 def send_ip_to_discord(ip, data, user_agent_raw, method):
+    '''
+    This function collects and sends IP address data to a discord server, formatted as an embed.
+    Takes IP, parsed JSON data, user agent information and request method as arguments. All should be strings.
+    '''
+
+    # Channel to send the IP message to
     url = f"https://discord.com/api/v10/channels/{DISCORD_CHANNEL_ID}/messages"
     headers = {
         "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
@@ -29,15 +38,16 @@ def send_ip_to_discord(ip, data, user_agent_raw, method):
     # Parse user agent string
     ua = parse_ua(user_agent_raw or "")
 
+    # Populate user agent information
     device_type = "Mobile" if ua.is_mobile else "Tablet" if ua.is_tablet else "PC" if ua.is_pc else "Other"
     os_info = f"{ua.os.family} {ua.os.version_string}"
     browser_info = f"{ua.browser.family} {ua.browser.version_string}"
 
-    #setup the embed message
+    # Setup the discord embed message as json
     embed = {
         "title": "New Visitor",
         "description": f"IP Address: `{ip}`",
-        "color": 65280,  # green
+        "color": 65280,  # Green
         "author": {
             "name": "Abstract IP Intelligence",
             "url": "https://www.abstractapi.com/",
@@ -55,9 +65,9 @@ def send_ip_to_discord(ip, data, user_agent_raw, method):
         ]
     }
 
-    json_data = {"embeds": [embed]}
+    response_json_data = {"embeds": [embed]}
 
-    response = requests.post(url, headers=headers, json=json_data)
+    response = requests.post(url, headers=headers, json=response_json_data)
     
     if response.status_code != 200 and response.status_code != 204:
         print("Failed to send message to Discord:", response.text)
@@ -72,6 +82,7 @@ def index():
 def goon():
     return render_template("goonIndex.html")
 
+# IP revealer
 @app.route("/reveal", methods=["POST"])
 def reveal_ip():
 
@@ -86,7 +97,7 @@ def reveal_ip():
 
     send_ip_to_discord(ip, data, user_agent, method)
 
-    #return response.json()  # Return the JSON response directly from the Abstract API
+    #return response.json()  # Return the JSON response directly from the Abstract API for debugging if needed
     return jsonify({"ip": ip})
 
 # ---------- Subroutes for iframes ----------
@@ -106,6 +117,8 @@ def botmanagement():
 @app.route("/appletsindex", methods=["GET"])
 def appletsindex():
     return render_template("appletsindex.html")
+
+# ---------- Run the app ----------
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=OUTSIDE_PORT)
