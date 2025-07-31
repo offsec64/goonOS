@@ -82,7 +82,7 @@ def index():
 
 @app.route("/goon", methods=["GET"])
 def goon():
-    return render_template("goonIndex.html", version=WEBAPP_VERSION)
+    return render_template("gateway.html", version=WEBAPP_VERSION) # Send webapp version to be insterted into document with jinja
 
 # IP revealer
 @app.route("/reveal", methods=["POST"])
