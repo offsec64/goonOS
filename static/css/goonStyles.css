@@ -55,10 +55,10 @@ body{
 #pagelist {
     display: flex;
     flex-direction: column;
-    border-right: 1px solid black;
-    border-top: 1px solid black;
-    border-bottom:1px solid black;
-    height: 100%;
+    border-right: 1px inset black;
+    border-left: 2px inset black;
+    border-top: 2px inset black;
+    border-bottom: 2px inset black;
     width: 33%;
 }
 
