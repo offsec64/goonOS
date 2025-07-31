@@ -80,8 +80,8 @@ def send_ip_to_discord(ip, data, user_agent_raw, method):
 def index():
     return render_template("index.html")
 
-@app.route("/goon", methods=["GET"])
-def goon():
+@app.route("/gateway", methods=["GET"])
+def gateway():
     return render_template("gateway.html", version=WEBAPP_VERSION) # Send webapp version to be insterted into document with jinja
 
 # IP revealer
