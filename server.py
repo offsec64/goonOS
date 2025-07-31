@@ -14,7 +14,7 @@ OUTSIDE_PORT = os.getenv("OUTSIDE_PORT")
 ABSTRACT_API_KEY = os.getenv("ABSTRACT_API_KEY")
 PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 
-app = Flask(__name__, template_folder=PATH_TO_WEBSITE + "/templates", static_folder=PATH_TO_WEBSITE + "/static")
+app = Flask(__name__)
 
 # Function to send IP data to Discord
 def send_ip_to_discord(ip, data, user_agent_raw, method):
@@ -62,14 +62,14 @@ def send_ip_to_discord(ip, data, user_agent_raw, method):
     if response.status_code != 200 and response.status_code != 204:
         print("Failed to send message to Discord:", response.text)
 
-# ---------- Flask Routes -----------
+# ---------- Main Flask Routes -----------
 
 @app.route("/", methods=["GET"])
-def render_page():
+def index():
     return render_template("index.html")
 
 @app.route("/goon", methods=["GET"])
-def render_goon_page():
+def goon():
     return render_template("goonIndex.html")
 
 @app.route("/reveal", methods=["POST"])
@@ -88,6 +88,24 @@ def reveal_ip():
 
     #return response.json()  # Return the JSON response directly from the Abstract API
     return jsonify({"ip": ip})
+
+# ---------- Subroutes for iframes ----------
+
+@app.route("/chat", methods=["GET"])
+def chat():
+    return render_template("chat.html")
+
+@app.route("/steamstats", methods=["GET"])
+def steamstats():
+    return render_template("steamstats.html")
+
+@app.route("/botmanagement", methods=["GET"])
+def botmanagement():
+    return render_template("botmanagement.html")
+
+@app.route("/appletsindex", methods=["GET"])
+def appletsindex():
+    return render_template("appletsindex.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=OUTSIDE_PORT)

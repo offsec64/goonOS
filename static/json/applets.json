@@ -1,0 +1,19 @@
+{
+    "applets":[
+    
+    {
+    "Name":"Bot Management",
+    "RouteName":"botmanagement"
+    },
+    {
+    "Name":"S***ty Ollama Wrapper",
+    "RouteName":"chat"
+    },
+    {
+    "Name":"Steam Stats",
+    "RouteName":"steamstats"
+    }
+    
+    ]   
+
+}

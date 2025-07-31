@@ -14,8 +14,8 @@
 
     <body>
         <div id="menubar">
-            <a id="logo">GoonOS</a>
-            <a class="accent-text">Alpha 1</a>
+            <a id="logo">GoonOS Gateway</a>
+            <a class="accent-text">Alpha 1.1 RC1</a>
             <div class="flexspacer"></div>
 
         </div>
@@ -25,7 +25,7 @@
             <div id="pagelist">
                 <!--Content will be automatically added according to applets.json-->
             </div>
-            <iframe src="appletsindex.html" class="applet" id="applet_embed"></iframe>
+            <iframe src="{{ url_for('appletsindex') }}" class="applet" id="applet-iframe"></iframe>
         </div>
 
         <div id="footer">
@@ -43,8 +43,8 @@
     <div id="pagecover">
         <div class="flexspacer"></div>
         <div id="loading">
-            <a id="logo">GoonOS</a>
-            <a id="loadtext">Loading.... Procuring Dependancies</a>
+            <a id="logo">GoonOS Gateway</a>
+            <a id="loadtext">Loading.... Procuring Dependencies</a>
             <div class="flexspacer"></div>
             <a>v1 Alpha</a>
         </div>
@@ -63,11 +63,44 @@
         -jd
         */
 
-        let numapplets = 1;
-        let jsondata;   
+        const routes = {
+            botmanagement: {
+                url: "{{ url_for('botmanagement') }}",
+                name: "Bot Management"
+            },
+            chat: {
+                url: "{{ url_for('chat') }}",
+                name: "Chat"
+            },
+            steamstats: {
+                url: "{{ url_for('steamstats') }}",
+                name: "Steam Stats"
+            }
+        };
 
-        /* 
-        fetch("")
+        const element = document.getElementById("pagelist");
+
+        for (const key in routes) {
+            let item = document.createElement('a')
+            item.classList.add("pagelist_item");
+            item.id = "applet-" + key ;
+            item.innerHTML = routes[key].name;
+            item.setAttribute("onclick", `loadIframe('${key}')` );
+
+            element.appendChild(item);
+        }
+        
+        function loadIframe(routeName) {
+            const iframe = document.getElementById("applet-iframe");
+            iframe.src = routes[routeName].url;
+        }
+
+
+        //let numapplets = 1;
+        //let jsondata;   
+
+        /*
+        fetch("{{ url_for('static', filename='json/applets.json') }}")
             .then(function(u) {
                 return u.json();
             })
@@ -81,8 +114,7 @@
                     item.id = "appletid" + id;
                     item.innerHTML = data["Name"];
 
-
-                    item.setAttribute("onclick",`loadApplet( ${path}, ${id})`);
+                    item.setAttribute("onclick",`loadApplet(, ${id})`);
                     
 
                     const element = document.getElementById("pagelist");
@@ -96,6 +128,10 @@
             });
         */
        
+
+        // -- working code --
+
+        /*
         const item = document.createElement("a");
         item.classList.add("pagelist_item");
         item.id = "appletid" + 1;
@@ -106,19 +142,22 @@
         const element = document.getElementById("pagelist");
         element.appendChild(item);
 
-        item.setAttribute("onclick", document.getElementById("applet_embed").src = "{{ url_for('templates', filename='chat.html') }}");
+        item.setAttribute("onclick", document.getElementById("applet_embed").src = "{{ url_for('chat') }}");
+        */
+
+        // -------------------
 
         //loadApplet("/chat.html", 1)
 
         /*
-        function loadApplet() {
+        function loadApplet(name, id) {
 
-            //for (let step = 0; step < numapplets; step++) {
+            for (let step = 0; step < numapplets; step++) {
 
-                //var listitem = document.getElementById("appletid" + step);
-                //listitem.classList.remove("active");
+                var listitem = document.getElementById("appletid" + step);
+                listitem.classList.remove("active");
 
-            //}
+            }
 
             document.getElementById("applet_embed").src = "/chat.html";
 
