@@ -1,2 +1,2 @@
-# goonsoft-web
+# GoonOS
 Flask backend for GoonSoft website
