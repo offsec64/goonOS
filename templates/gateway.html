@@ -5,6 +5,12 @@
   <title>GoonOS {{ version }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'media'
+        }
+    </script>
+
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     body {
@@ -14,10 +20,11 @@
   </style>
 </head>
 
-    <body class="text-gray-800 font-sans min-h-screen flex flex-col bg-gradient-to-br from-gray-100 via-white to-gray-200">
+    <body class="font-sans min-h-screen flex flex-col text-gray-800 bg-gradient-to-br from-gray-100 via-white to-gray-200 dark:text-gray-100 dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+
 
     <!-- Header -->
-    <header class="sticky top-0 bg-white border-b shadow-md z-40 w-full">
+    <header class="sticky top-0 w-full z-40 border-b shadow-md bg-white dark:bg-gray-900 dark:border-gray-700">
         <div class="w-full px-8 py-4 flex items-center justify-between">
             
             <!-- Left side -->
@@ -39,7 +46,8 @@
     <!-- Main content -->
     <main class="flex flex-row w-full flex-grow px-8 py-6 gap-6">
     <!-- Sidebar -->
-        <aside class="w-60 flex-shrink-0 rounded-lg shadow-md border border-white/30 bg-white/30 backdrop-blur-md p-4">
+        <aside class="w-60 flex-shrink-0 rounded-lg shadow-md border border-white/30 bg-white/30 backdrop-blur-md p-4 dark:bg-white/10 dark:border-white/20">
+
             <div class="space-y-2">
             <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Applications</h2>
                 <div id="pagelist" class="space-y-1">
@@ -58,10 +66,12 @@
 
 
     <!-- Footer -->
-    <footer class="bg-white border-t text-sm text-gray-500 w-full">
+    <footer class="w-full border-t text-sm bg-white text-gray-500 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-700">
         <div class="w-full px-8 py-4 flex justify-between">
             <span>Open-Source Software. Please Redistribute.</span>
-            <a href="{{ url_for('logout') }}" class="hover:underline text-gray-600">Logout</a>
+            <button id="themeToggle" class="text-gray-600 dark:text-gray-300 text-sm hover:underline">
+                Toggle Theme
+            </button>
         </div>
     </footer>
 
@@ -94,8 +104,7 @@
         const listElement = document.getElementById("pagelist");
         for (const key in routes) {
         const item = document.createElement("button");
-        item.className = "w-full text-left px-3 py-2 rounded-md hover:bg-white/40 text-sm text-gray-800 transition font-medium";
-
+       item.className = "w-full text-left px-3 py-2 rounded-md transition font-medium text-sm text-gray-800 dark:text-gray-100 hover:bg-white/40 dark:hover:bg-white/20";
         item.id = "applet-" + key;
         item.textContent = routes[key].name;
         item.onclick = () => loadIframe(key);
@@ -120,5 +129,32 @@
         document.getElementById("pagecover").style.display = "none";
         }, 4000);
     </script>
+
+    <script>
+        const root = document.documentElement;
+        const toggleBtn = document.getElementById("themeToggle");
+
+        // Initialize theme from localStorage or system preference
+        const userTheme = localStorage.getItem("theme");
+        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+        if (userTheme === "dark" || (!userTheme && systemTheme)) {
+            root.classList.add("dark");
+        } else {
+            root.classList.remove("dark");
+        }
+
+        // Toggle handler
+        toggleBtn?.addEventListener("click", () => {
+            if (root.classList.contains("dark")) {
+            root.classList.remove("dark");
+            localStorage.setItem("theme", "light");
+            } else {
+            root.classList.add("dark");
+            localStorage.setItem("theme", "dark");
+            }
+        });
+    </script>
+
 </body>
 </html>
