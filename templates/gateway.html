@@ -18,14 +18,14 @@
 
   <!-- Header -->
   <header class="sticky top-0 bg-white border-b shadow-sm z-40">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <div class="w-full px-8 py-4 flex items-center justify-between max-w-screen-2xl mx-auto">
       <div class="text-xl font-semibold tracking-tight">GoonOS Gateway</div>
       <div class="text-sm text-gray-500">v{{ version }}</div>
     </div>
   </header>
 
   <!-- Main content -->
-  <main class="flex-1 max-w-7xl mx-auto w-full px-6 py-6 flex gap-6">
+  <main class="flex-1 w-full px-8 py-6 flex gap-6 max-w-screen-2xl mx-auto">
 
     <!-- Sidebar -->
     <aside class="w-48 flex-shrink-0">
@@ -38,15 +38,15 @@
     </aside>
 
     <!-- Content -->
-    <section class="flex-1 rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white">
-      <iframe src="{{ url_for('appletsindex') }}" id="applet-iframe" class="w-full h-[70vh] border-none"></iframe>
+    <section class="flex-1 rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white h-[calc(100vh-200px)]">
+      <iframe src="{{ url_for('appletsindex') }}" id="applet-iframe" class="w-full h-full border-none"></iframe>
     </section>
 
   </main>
 
   <!-- Footer -->
   <footer class="bg-white border-t text-sm text-gray-500">
-    <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between">
+    <div class="w-full px-8 py-4 flex items-center justify-between max-w-screen-2xl mx-auto">
       <span>Open-Source Software. Please Redistribute.</span>
       <a href="{{ url_for('logout') }}" class="hover:underline text-gray-600">Logout</a>
     </div>
