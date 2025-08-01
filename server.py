@@ -165,18 +165,23 @@ def reveal_ip():
 # ---------- Subroutes for iframes ----------
 
 @app.route("/chat", methods=["GET"])
+@login_required
 def chat():
     return render_template("chat.html")
 
 @app.route("/steamstats", methods=["GET"])
+@login_required
 def steamstats():
     return render_template("steamstats.html")
 
+
 @app.route("/botmanagement", methods=["GET"])
+@login_required
 def botmanagement():
     return render_template("botmanagement.html")
 
 @app.route("/appletsindex", methods=["GET"])
+@login_required
 def appletsindex():
     return render_template("appletsindex.html")
 
