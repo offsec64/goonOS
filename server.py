@@ -11,6 +11,8 @@ import requests
 import os
 import json
 import datetime
+import mysql.connector
+
 from datetime import datetime
 from dotenv import load_dotenv
 from user_agents import parse as parse_ua
@@ -24,7 +26,49 @@ ABSTRACT_API_KEY = os.getenv("ABSTRACT_API_KEY")
 PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 SECRET_KEY = os.getenv("SECRET_KEY")
 
+DB_HOST = os.getenv("DB_HOST")
+DB_USERNAME = os.getenv("DB_USERNAME")
+DB_PASSWORD = os.getenv("DB_PASSWORD")
+
 WEBAPP_VERSION = "2.1 ALPHA"
+
+def query_steamstats_database(table, rows=2):
+
+    #Connect to the MySQL database
+    mydb = mysql.connector.connect(
+        host=DB_HOST,
+        user=DB_USERNAME,
+        password=DB_PASSWORD,
+        database="goontech"
+    )
+
+    # Check if the database connection was successful
+    if mydb.is_connected():
+        print("Connected to the database successfully!")
+    else:
+        print("Failed to connect to the database.")
+        mydb.close()
+        raise ConnectionError("Could not connect to the MySQL database. Please check your credentials and network connection.")
+
+    mycursor = mydb.cursor()
+
+    # Selects the most recent entry from the steam_data table
+    mycursor.execute(f"SELECT * FROM `{table}` ORDER BY `timestamp` DESC LIMIT {rows}")
+    databaseResult = mycursor.fetchall()
+
+    if databaseResult:
+        print(f"Most recent entry in {table}:")
+        for row in databaseResult:
+            print(row[3] + " Hours @ " + row[4] + " UTC")
+    else:
+        print(f"No entries found in '{table}' table.")
+
+    mycursor.close()
+    mydb.close()
+
+    return databaseResult
+
+# ---------- Flask initilization ----------
 
 app = Flask(__name__)
 
