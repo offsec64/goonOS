@@ -1,17 +1,38 @@
-<form method="post" action="{{ url_for('login') }}">
-    <input name="username" placeholder="Username" required>
-    <input name="password" type="password" placeholder="Password" required>
-    <button type="submit">Login</button>
-</form>
-<a href="{{ url_for('register') }}">Register</a>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class="flashes">
-      {% for message in messages %}
-        <li>{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
+  <div class="w-full max-w-sm bg-white p-8 rounded-xl shadow-md">
+    <h1 class="text-2xl font-bold mb-6 text-center">Login</h1>
+    <form method="post" action="{{ url_for('login') }}" class="space-y-4">
+      <input name="username" type="text" placeholder="Username" required
+             class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <input name="password" type="password" placeholder="Password" required
+             class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <button type="submit"
+              class="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition duration-150">
+        Login
+      </button>
+    </form>
+    <p class="mt-4 text-center text-sm text-gray-600">
+      Don't have an account?
+      <a href="{{ url_for('register') }}" class="text-blue-600 hover:underline">Register</a>
+    </p>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <div class="mt-4 text-red-500 text-sm text-center">
+          {% for message in messages %}
+            <p>{{ message }}</p>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+  </div>
 
+</body>
+</html>
