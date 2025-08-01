@@ -94,7 +94,8 @@
         const listElement = document.getElementById("pagelist");
         for (const key in routes) {
         const item = document.createElement("button");
-        item.className = "w-full text-left px-3 py-2 rounded-md hover:bg-gray-100 text-sm text-gray-700 transition font-medium shadow-sm hover:shadow-md";
+        item.className = "w-full text-left px-3 py-2 rounded-md hover:bg-white/40 text-sm text-gray-800 transition font-medium";
+
         item.id = "applet-" + key;
         item.textContent = routes[key].name;
         item.onclick = () => loadIframe(key);
