@@ -1,8 +1,9 @@
 # This script runs a Flask server responsible for hosting the main GoonSoft website.
 # 
 
-from flask import Flask, request, jsonify, render_template, flash, redirect, url_for
+from flask import Flask, request, jsonify, render_template, flash, redirect, url_for, session
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_cors import CORS
 
 from models import db, User
 from auth import role_required
@@ -79,6 +80,8 @@ def query_steamstats_database(table, rows=2):
 # ---------- Flask initilization ----------
 
 app = Flask(__name__)
+
+CORS(app)
 
 @app.shell_context_processor
 def make_shell_context():
@@ -225,6 +228,7 @@ def reveal_ip():
 
 # ---------- Subroutes for iframes ----------
 
+'''
 @app.route("/llmquery", methods=["POST"])
 def llmquery():
     user_input = request.json.get("message")
@@ -237,6 +241,40 @@ def llmquery():
 
     data = response.json()
     return jsonify({"response": data.get("response", "").strip()})
+'''
+@app.route("/llmquery", methods=["POST"])
+def llmquery():
+    user_input = request.json.get("message")
+
+    # Get prior messages from session, or start new chat
+    chat_history = session.get("chat_history", [])
+    chat_history.append({"role": "user", "content": user_input})
+
+    # Build full prompt from history
+    prompt = ""
+    for message in chat_history:
+        role = message["role"]
+        content = message["content"]
+        if role == "user":
+            prompt += f"User: {content}\n"
+        else:
+            prompt += f"Assistant: {content}\n"
+
+    # Send to Ollama
+    response = requests.post(OLLAMA_API_URL, json={
+        "model": "dolphin3:8b",
+        "prompt": prompt + "Assistant:",
+        "stream": False
+    })
+
+    data = response.json()
+    bot_response = data.get("response", "").strip()
+
+    # Add assistant response to history and store back in session
+    chat_history.append({"role": "assistant", "content": bot_response})
+    session["chat_history"] = chat_history
+
+    return jsonify({"response": bot_response})
 
 @app.route("/chat", methods=["GET"])
 @login_required
