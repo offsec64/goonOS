@@ -131,7 +131,7 @@
       // Placeholder for assistant response
       const responseElem = appendMessage("assistant", "", true);
 
-      const response = await fetch("/chat", {
+      const response = await fetch("/llmquery", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message })
