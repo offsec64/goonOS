@@ -259,7 +259,7 @@ def llmquery():
 
     def generate():
         with requests.post(OLLAMA_API_URL, json={
-            "model": 'dolphin3:12b',
+            "model": 'gemma3:12b',
             "prompt": prompt,
             "stream": True
         }, stream=True) as r:
