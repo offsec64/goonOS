@@ -1,105 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>GoonOS {{ version }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
 
-    <head>
-        <title>GoonOS {{ version }}</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/gatewayStyles.css') }}">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
-    </head>
+<body class="bg-gray-100 text-gray-900 font-sans">
+  <!-- Loading screen -->
+  <div id="pagecover" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center space-y-4">
+    <div class="text-3xl font-bold text-blue-600">GoonOS Gateway</div>
+    <div id="loadtext" class="text-gray-600 text-lg">Loading... Procuring Dependencies</div>
+    <div class="text-sm text-gray-500">Welcome {{ user.username }}!</div>
+  </div>
 
-    <body>
-        <div id="menubar">
-            <a id="logo">GoonOS Gateway </a>
-            <a class="accent-text">{{ version }}</a>
-            <div class="flexspacer"></div>
+  <!-- Header -->
+  <header class="bg-white shadow-md p-4 flex items-center justify-between">
+    <div class="text-xl font-bold text-blue-600">GoonOS Gateway</div>
+    <div class="text-sm text-gray-600">Version {{ version }}</div>
+  </header>
 
-        </div>
+  <!-- Layout -->
+  <div class="flex h-[calc(100vh-64px)]">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white border-r shadow-sm p-4 space-y-2">
+      <h2 class="text-md font-semibold text-gray-700 mb-2">Available Apps</h2>
+      <div id="pagelist" class="flex flex-col space-y-1">
+        <!-- Populated by JS -->
+      </div>
+    </aside>
 
-        <!-- Main Window -->
-        <div id="pagestructure">
-            <div id="pagelist">
-                <!--Content will be automatically added according to applets.json-->
-            </div>
-            <iframe src="{{ url_for('appletsindex') }}" class="applet" id="applet-iframe"></iframe>
-        </div>
+    <!-- Main Content -->
+    <main class="flex-1 p-4">
+      <iframe src="{{ url_for('appletsindex') }}"
+              class="w-full h-full rounded-lg border border-gray-200"
+              id="applet-iframe"></iframe>
+    </main>
+  </div>
 
-        <div id="footer">
-            <a>Open-Source Software. Please Redistribute!</a>
-            <div class="flexspacer"></div>
-            <a href="{{ url_for('logout' )}}">Logout</a>
-        </div>
-        
-    </body>
+  <!-- Footer -->
+  <footer class="bg-white border-t p-4 flex justify-between text-sm text-gray-500">
+    <span>Open-Source Software. Please Redistribute!</span>
+    <a href="{{ url_for('logout') }}" class="text-blue-500 hover:underline">Logout</a>
+  </footer>
 
-    <!--add custom right click menu-->
+  <!-- JavaScript Logic -->
+  <script>
+    const routes = {
+      botmanagement: {
+        url: "{{ url_for('botmanagement') }}",
+        name: "Bot Management"
+      },
+      chat: {
+        url: "{{ url_for('chat') }}",
+        name: "Chat"
+      },
+      steamstats: {
+        url: "{{ url_for('steamstats') }}",
+        name: "Steam Stats"
+      }
+    };
 
+    const element = document.getElementById("pagelist");
 
-    <!--very fake loading screen-->
-    <div id="pagecover">
-        <div class="flexspacer"></div>
-        <div id="loading">
-            <a id="logo">GoonOS Gateway</a>
-            <a id="loadtext">Loading.... Procuring Dependencies</a>
-            <div class="flexspacer"></div>
-            <a>Welcome {{ user.username }}!</a>
-        </div>
-        <div class="flexspacer"></div>
-    </div>
+    for (const key in routes) {
+      const item = document.createElement('button');
+      item.className = "w-full text-left px-3 py-2 rounded hover:bg-blue-100 text-gray-700";
+      item.id = "applet-" + key;
+      item.textContent = routes[key].name;
+      item.onclick = () => loadIframe(key);
+      element.appendChild(item);
+    }
 
-    <script>
+    function loadIframe(routeName) {
+      const iframe = document.getElementById("applet-iframe");
+      iframe.src = routes[routeName].url;
+    }
 
-        //Define route url's and names
-        const routes = {
-            botmanagement: {
-                url: "{{ url_for('botmanagement') }}",
-                name: "Bot Management"
-            },
-            chat: {
-                url: "{{ url_for('chat') }}",
-                name: "Chat"
-            },
-            steamstats: {
-                url: "{{ url_for('steamstats') }}",
-                name: "Steam Stats"
-            }
-        };
+    // Fake loading screen updates
+    setTimeout(() => {
+      document.getElementById("loadtext").textContent = "Loading... Recompiling Linux Kernel";
+    }, 1300);
 
-        const element = document.getElementById("pagelist");
+    setTimeout(() => {
+      document.getElementById("loadtext").textContent = "Loading... Synergizing and Streamlining";
+    }, 3000);
 
-        //Loop over entries in routes and create respective elements
-        for (const key in routes) {
-            let item = document.createElement('a')
-            item.classList.add("pagelist_item");
-            item.id = "applet-" + key ;
-            item.innerHTML = routes[key].name;
-            item.setAttribute("onclick", `loadIframe('${key}')` );
-
-            element.appendChild(item);
-        }
-        
-        //Load the iframe from the url provided in routes
-        function loadIframe(routeName) {
-            const iframe = document.getElementById("applet-iframe");
-            iframe.src = routes[routeName].url;
-        }
-
-        // fake loading screen
-        setTimeout(() => {
-            var x = document.getElementById("loadtext").innerHTML = "Loading.... Recompiling Linux Kernel";
-        }, 1300);
-
-        setTimeout(() => {
-            var x = document.getElementById("loadtext").innerHTML = "Loading.... Synergizing and Streamlining";
-        }, 3000);
-
-        setTimeout(() => {
-            var x = document.getElementById("pagecover");x.style.display = "none";
-        }, 4000);
-    </script>
-
+    setTimeout(() => {
+      document.getElementById("pagecover").style.display = "none";
+    }, 4000);
+  </script>
+</body>
 </html>
