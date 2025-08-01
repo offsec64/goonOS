@@ -30,6 +30,8 @@ DB_HOST = os.getenv("DB_HOST")
 DB_USERNAME = os.getenv("DB_USERNAME")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
+OLLAMA_API_URL = f"http://{str(os.getenv('OLLAMA_API_URL'))}/api/generate"
+
 WEBAPP_VERSION = "2.1 Alpha"
 
 def query_steamstats_database(table, rows=2):
@@ -222,6 +224,19 @@ def reveal_ip():
     return jsonify({"ip": ip})
 
 # ---------- Subroutes for iframes ----------
+
+@app.route("/llmquery", methods=["POST"])
+def llmquery():
+    user_input = request.json.get("message")
+    
+    response = requests.post(OLLAMA_API_URL, json={
+        "model": 'dolphin3:8b',
+        "prompt": user_input,
+        "stream": False
+    })
+
+    data = response.json()
+    return jsonify({"response": data.get("response", "").strip()})
 
 @app.route("/chat", methods=["GET"])
 @login_required
