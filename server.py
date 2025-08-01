@@ -247,33 +247,46 @@ def llmquery():
 @role_required('admin')
 def llmquery():
     user_input = request.json.get("message")
+    if not user_input:
+        return jsonify({"response": "No input received"}), 400
+
+    # Retrieve chat history from session
     chat_history = session.get("chat_history", [])
     chat_history.append({"role": "user", "content": user_input})
 
-    # Build the full prompt
+    # Build prompt from history
     prompt = ""
     for msg in chat_history:
-        prefix = "User" if msg["role"] == "user" else "Assistant"
-        prompt += f"{prefix}: {msg['content']}\n"
+        role = "User" if msg["role"] == "user" else "Assistant"
+        prompt += f"{role}: {msg['content']}\n"
     prompt += "Assistant:"
 
-    def generate():
-        with requests.post(OLLAMA_API_URL, json={
-            "model": 'gemma3:12b',
+    # Send prompt to Ollama
+    try:
+        response = requests.post(OLLAMA_API_URL, json={
+            "model": 'dolphin3:8b',
             "prompt": prompt,
-            "stream": True
-        }, stream=True) as r:
-            for line in r.iter_lines(decode_unicode=True):
-                if line:
-                    try:
-                        data = json.loads(line)
-                        chunk = data.get("response", "")
-                        if chunk:
-                            yield chunk
-                    except json.JSONDecodeError:
-                        continue
+            "stream": False
+        })
 
-    return Response(generate(), mimetype='text/plain')
+        data = response.json()
+        bot_response = data.get("response", "").strip()
+
+        # Update session history
+        chat_history.append({"role": "assistant", "content": bot_response})
+        session["chat_history"] = chat_history
+
+        return jsonify({"response": bot_response})
+
+    except Exception as e:
+        return jsonify({"response": f"Error: {str(e)}"}), 500
+
+@app.route('/reset', methods=['POST'])
+@login_required
+@role_required('admin')
+def reset():
+    session.pop("chat_history", None)
+    return jsonify({"status": "cleared"})
 
 @app.route("/chat", methods=["GET"])
 @login_required

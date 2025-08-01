@@ -120,39 +120,29 @@
     }
 
     async function sendMessage() {
-      const input = document.getElementById("message");
-      const message = input.value.trim();
-      if (!message) return;
+        const input = document.getElementById("message");
+        const message = input.value.trim();
+        if (!message) return;
 
-      // Show user's message
-      appendMessage("user", message);
-      input.value = "";
+        appendMessage("user", message);
+        input.value = "";
 
-      // Placeholder for assistant response
-      const responseElem = appendMessage("assistant", "", true);
+        const responseElem = appendMessage("assistant", "...");
+        
+        try {
+            const response = await fetch("/chat", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ message })
+            });
 
-      const response = await fetch("/llmquery", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message })
-      });
-
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder("utf-8");
-      let done = false;
-      let buffer = "";
-
-      while (!done) {
-        const { value, done: readerDone } = await reader.read();
-        if (value) {
-          const chunk = decoder.decode(value, { stream: true });
-          buffer += chunk;
-          responseElem.textContent = buffer;
-          chatWindow.scrollTop = chatWindow.scrollHeight;
+            const data = await response.json();
+            responseElem.textContent = data.response || "[No response]";
+        } catch (err) {
+            responseElem.textContent = "Error getting response from server.";
         }
-        done = readerDone;
-      }
     }
+
 
     document.getElementById("message").addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
