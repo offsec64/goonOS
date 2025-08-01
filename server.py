@@ -66,7 +66,13 @@ def query_steamstats_database(table, rows=2):
     mycursor.close()
     mydb.close()
 
-    return databaseResult
+    latestHours = int(databaseResult[0][3])
+    previousHours = int(databaseResult[1][3])
+    delta = latestHours - previousHours
+
+    returnString = f"Current hours in '{databaseResult[0][2]}': {latestHours}\nChange since yesterday: {delta}"
+
+    return returnString
 
 # ---------- Flask initilization ----------
 
