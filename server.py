@@ -20,7 +20,7 @@ OUTSIDE_PORT = os.getenv("OUTSIDE_PORT")
 ABSTRACT_API_KEY = os.getenv("ABSTRACT_API_KEY")
 PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 
-WEBAPP_VERSION = "1.3 ALPHA"
+WEBAPP_VERSION = "2.0 ALPHA"
 
 app = Flask(__name__)
 
