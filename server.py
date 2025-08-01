@@ -1,7 +1,7 @@
 # This script runs a Flask server responsible for hosting the main GoonSoft website.
 # 
 
-from flask import Flask, request, jsonify, render_template, flash, redirect, url_for, session
+from flask import Flask, request, jsonify, render_template, flash, redirect, url_for, session, Response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_cors import CORS
 
@@ -247,36 +247,32 @@ def llmquery():
 @role_required('admin')
 def llmquery():
     user_input = request.json.get("message")
-
-    # Get prior messages from session, or start new chat
     chat_history = session.get("chat_history", [])
     chat_history.append({"role": "user", "content": user_input})
 
-    # Build full prompt from history
+    # Build the full prompt
     prompt = ""
-    for message in chat_history:
-        role = message["role"]
-        content = message["content"]
-        if role == "user":
-            prompt += f"User: {content}\n"
-        else:
-            prompt += f"Assistant: {content}\n"
+    for msg in chat_history:
+        prefix = "User" if msg["role"] == "user" else "Assistant"
+        prompt += f"{prefix}: {msg['content']}\n"
+    prompt += "Assistant:"
 
-    # Send to Ollama
-    response = requests.post(OLLAMA_API_URL, json={
-        "model": "dolphin3:8b",
-        "prompt": prompt + "Assistant:",
-        "stream": False
-    })
+    def generate():
+        with requests.post(OLLAMA_API_URL, json={
+            "model": 'dolphin3:8b',
+            "prompt": prompt,
+            "stream": True
+        }, stream=True) as r:
+            for line in r.iter_lines():
+                if line:
+                    data = json.loads(line.decode("utf-8"))
+                    token = data.get("response", "")
+                    yield token
+        yield "[[END]]"  # optional delimiter
 
-    data = response.json()
-    bot_response = data.get("response", "").strip()
+    # Save history after the stream ends — handled client-side via a separate call or buffering
 
-    # Add assistant response to history and store back in session
-    chat_history.append({"role": "assistant", "content": bot_response})
-    session["chat_history"] = chat_history
-
-    return jsonify({"response": bot_response})
+    return Response(generate(), mimetype='text/plain')
 
 @app.route("/chat", methods=["GET"])
 @login_required

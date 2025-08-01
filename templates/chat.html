@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LLM Chat</title>
+    <title>Streaming LLM Chat</title>
     <style>
-        body { font-family: Arial; margin: 20px; }
         #chat { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; }
         .user, .bot { margin-bottom: 10px; }
         .user { color: blue; }
@@ -11,38 +10,52 @@
     </style>
 </head>
 <body>
-    <h2>Chat with LLM</h2>
+    <h2>Chat with LLM (Streaming)</h2>
     <div id="chat"></div>
     <input type="text" id="message" placeholder="Type a message..." />
     <button onclick="sendMessage()">Send</button>
 
     <script>
-        const chatDiv = document.getElementById("chat");
-
-        function appendMessage(sender, text) {
-            const msg = document.createElement("div");
-            msg.className = sender;
-            msg.textContent = `${sender === "user" ? "You" : "Bot"}: ${text}`;
-            chatDiv.appendChild(msg);
-            chatDiv.scrollTop = chatDiv.scrollHeight;
-        }
-
         async function sendMessage() {
             const input = document.getElementById("message");
-            const message = input.value;
+            const message = input.value.trim();
             if (!message) return;
-            
+
             appendMessage("user", message);
             input.value = "";
 
-            const res = await fetch("/llmquery", {
+            const chatDiv = document.getElementById("chat");
+            const botMsg = document.createElement("div");
+            botMsg.className = "bot";
+            botMsg.textContent = "Bot: ";
+            chatDiv.appendChild(botMsg);
+            chatDiv.scrollTop = chatDiv.scrollHeight;
+
+            const response = await fetch("/llmquery", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ message })
             });
 
-            const data = await res.json();
-            appendMessage("bot", data.response);
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            let content = "";
+
+            while (true) {
+                const { value, done } = await reader.read();
+                if (done) break;
+                const chunk = decoder.decode(value, { stream: true });
+                content += chunk;
+                botMsg.textContent = "Bot: " + content;
+                chatDiv.scrollTop = chatDiv.scrollHeight;
+            }
+        }
+
+        function appendMessage(sender, text) {
+            const msg = document.createElement("div");
+            msg.className = sender;
+            msg.textContent = `${sender === "user" ? "You" : "Bot"}: ${text}`;
+            document.getElementById("chat").appendChild(msg);
         }
     </script>
 </body>
