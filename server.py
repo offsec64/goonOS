@@ -1,13 +1,16 @@
 # This script runs a Flask server responsible for hosting the main GoonSoft website.
-# 
 
+# Import from flask
 from flask import Flask, request, jsonify, render_template, flash, redirect, url_for, session, Response
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 from flask_cors import CORS
 
+# Import from other files
 from models import db, User
 from auth import role_required
+from dbquery import query_steamstats_database
 
+# Other dependencies
 import requests
 import os
 import json
@@ -18,8 +21,9 @@ from datetime import datetime
 from dotenv import load_dotenv
 from user_agents import parse as parse_ua
 
-# Load environment variables from .env file
+# Load and define environment variables from .env file
 load_dotenv()
+
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
 DISCORD_CHANNEL_ID = os.getenv("DISCORD_IPADDRESS_CHANNEL")
 OUTSIDE_PORT = os.getenv("OUTSIDE_PORT")
@@ -35,6 +39,7 @@ OLLAMA_API_URL = f"http://{str(os.getenv('OLLAMA_API_URL'))}/api/generate"
 
 WEBAPP_VERSION = "2.3 Alpha"
 
+'''
 def query_steamstats_database(table, rows=2):
 
     #Connect to the MySQL database
@@ -76,6 +81,7 @@ def query_steamstats_database(table, rows=2):
     returnDict = {"name": databaseResult[0][2], "hours": latestHours, "delta": delta}
 
     return returnDict
+'''
 
 # ---------- Flask initilization ----------
 
