@@ -1,7 +1,9 @@
 # This script runs a Flask server responsible for hosting the main GoonSoft website.
 # 
 
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, flash, redirect, url_for
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from models import db, User
 import requests
 import os
 import json
@@ -21,6 +23,60 @@ PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 WEBAPP_VERSION = "1.3 ALPHA"
 
 app = Flask(__name__)
+
+# ---------- Authentication Stuff ----------
+
+app.secret_key = os.urandom(24)  # Use a secure secret key!
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+db.init_app(app)
+
+login_manager = LoginManager()
+login_manager.login_view = 'login'
+login_manager.init_app(app)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        if User.query.filter_by(username=username).first():
+            flash("Username already exists")
+            return redirect(url_for('register'))
+        new_user = User(username=username)
+        new_user.set_password(password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash("User created successfully")
+        return redirect(url_for('login'))
+    return render_template('register.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = User.query.filter_by(username=username).first()
+        if user and user.check_password(password):
+            login_user(user)
+            return redirect(url_for('protected'))
+        flash("Invalid credentials")
+    return render_template('login.html')
+
+@app.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+@app.route('/protected')
+@login_required
+def protected():
+    return render_template('protected.html', user=current_user)
+
 
 def send_ip_to_discord(ip, data, user_agent_raw, method):
     '''
@@ -80,7 +136,7 @@ def send_ip_to_discord(ip, data, user_agent_raw, method):
 def index():
     return render_template("index.html")
 
-@app.route("/gateway", methods=["GET"])
+@app.route("/dashboard", methods=["GET"])
 def gateway():
     return render_template("gateway.html", version=WEBAPP_VERSION) # Send webapp version to be insterted into document with jinja
 
@@ -123,4 +179,6 @@ def appletsindex():
 # ---------- Run the app ----------
 
 if __name__ == "__main__":
+    with app.app_context():
+        db.create_all()
     app.run(host="0.0.0.0", port=OUTSIDE_PORT)
