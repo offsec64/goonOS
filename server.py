@@ -30,58 +30,9 @@ OUTSIDE_PORT = os.getenv("OUTSIDE_PORT")
 ABSTRACT_API_KEY = os.getenv("ABSTRACT_API_KEY")
 PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 SECRET_KEY = os.getenv("SECRET_KEY")
-
-DB_HOST = os.getenv("DB_HOST")
-DB_USERNAME = os.getenv("DB_USERNAME")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-
 OLLAMA_API_URL = f"http://{str(os.getenv('OLLAMA_API_URL'))}/api/generate"
 
 WEBAPP_VERSION = "2.3 Alpha"
-
-'''
-def query_steamstats_database(table, rows=2):
-
-    #Connect to the MySQL database
-    mydb = mysql.connector.connect(
-        host=DB_HOST,
-        user=DB_USERNAME,
-        password=DB_PASSWORD,
-        database="goontech"
-    )
-
-    # Check if the database connection was successful
-    if mydb.is_connected():
-        print("Connected to the database successfully!")
-    else:
-        print("Failed to connect to the database.")
-        mydb.close()
-        raise ConnectionError("Could not connect to the MySQL database. Please check your credentials and network connection.")
-
-    mycursor = mydb.cursor()
-
-    # Selects the most recent entry from the steam_data table
-    mycursor.execute(f"SELECT * FROM `{table}` ORDER BY `timestamp` DESC LIMIT {rows}")
-    databaseResult = mycursor.fetchall()
-
-    if databaseResult:
-        print(f"Most recent entry in {table}:")
-        for row in databaseResult:
-            print(row[3] + " Hours @ " + row[4] + " UTC")
-    else:
-        print(f"No entries found in '{table}' table.")
-
-    mycursor.close()
-    mydb.close()
-
-    latestHours = int(databaseResult[0][3])
-    previousHours = int(databaseResult[1][3])
-    delta = latestHours - previousHours
-
-    returnDict = {"name": databaseResult[0][2], "hours": latestHours, "delta": delta}
-
-    return returnDict
-'''
 
 # ---------- Flask initilization ----------
 
@@ -210,11 +161,7 @@ def send_ip_to_discord(ip, data, user_agent_raw, method):
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
-'''
-@app.route("/dashboard", methods=["GET"])
-def gateway():
-    return render_template("gateway.html", version=WEBAPP_VERSION) # Send webapp version to be insterted into document with jinja
-'''
+
 # IP revealer
 @app.route("/reveal", methods=["POST"])
 def reveal_ip():
@@ -235,7 +182,43 @@ def reveal_ip():
 
 # ---------- Subroutes for iframes ----------
 
+
+
+@app.route("/chat", methods=["GET"])
+@login_required
+@role_required('admin')
+def chat():
+    return render_template("chat.html")
+
+@app.route("/steamstats", methods=["GET"])
+@login_required
+@role_required('admin')
+def steamstats():
+    data = query_steamstats_database('steamvr')
+    gameName = data["name"]
+    gameHours = data["hours"]
+    gameDelta = data["delta"]
+
+    return render_template("steamstats.html", name=gameName, hours=gameHours, delta=gameDelta)
+
+
+@app.route("/botmanagement", methods=["GET"])
+@login_required
+@role_required('admin')
+def botmanagement():
+    return render_template("botmanagement.html")
+
+@app.route("/appletsindex", methods=["GET"])
+@login_required
+@role_required('admin')
+def appletsindex():
+    return render_template("appletsindex.html")
+
+# ---------- Subroutes for LLM ----------
+
 '''
+# Single generation mode
+
 @app.route("/llmquery", methods=["POST"])
 def llmquery():
     user_input = request.json.get("message")
@@ -249,6 +232,7 @@ def llmquery():
     data = response.json()
     return jsonify({"response": data.get("response", "").strip()})
 '''
+
 @app.route("/llmquery", methods=["POST"])
 @login_required
 @role_required('admin')
@@ -294,36 +278,6 @@ def llmquery():
 def reset():
     session.pop("chat_history", None)
     return jsonify({"status": "cleared"})
-
-@app.route("/chat", methods=["GET"])
-@login_required
-@role_required('admin')
-def chat():
-    return render_template("chat.html")
-
-@app.route("/steamstats", methods=["GET"])
-@login_required
-@role_required('admin')
-def steamstats():
-    data = query_steamstats_database('steamvr')
-    gameName = data["name"]
-    gameHours = data["hours"]
-    gameDelta = data["delta"]
-
-    return render_template("steamstats.html", name=gameName, hours=gameHours, delta=gameDelta)
-
-
-@app.route("/botmanagement", methods=["GET"])
-@login_required
-@role_required('admin')
-def botmanagement():
-    return render_template("botmanagement.html")
-
-@app.route("/appletsindex", methods=["GET"])
-@login_required
-@role_required('admin')
-def appletsindex():
-    return render_template("appletsindex.html")
 
 # ---------- Run the app ----------
 
