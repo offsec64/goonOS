@@ -116,7 +116,7 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        print("login attempted") #For testing
+        print("Login Attempted!") #For debug
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
@@ -233,7 +233,12 @@ def chat():
 @login_required
 @role_required('admin')
 def steamstats():
-    return render_template("steamstats.html", data=query_steamstats_database('steamvr'))
+    data = query_steamstats_database('steamvr')
+    gameName = data["name"]
+    gameHours = data["hours"]
+    gameDelta = data["delta"]
+
+    return render_template("steamstats.html", name=gameName, hours=gameHours, delta=gameDelta)
 
 
 @app.route("/botmanagement", methods=["GET"])
