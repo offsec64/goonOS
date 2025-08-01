@@ -32,7 +32,7 @@ PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 SECRET_KEY = os.getenv("SECRET_KEY")
 OLLAMA_API_URL = f"http://{str(os.getenv('OLLAMA_API_URL'))}/api/generate"
 
-WEBAPP_VERSION = "2.3 Alpha"
+WEBAPP_VERSION = "2.4 Alpha"
 
 # ---------- Flask initilization ----------
 
