@@ -194,7 +194,8 @@ def chat():
 @login_required
 @role_required('admin')
 def steamstats():
-    data = query_steamstats_database('steamvr')
+    app_name = request.args.get('app', 'steamvr').lower()
+    data = query_steamstats_database(app_name)
     gameName = data["name"]
     gameHours = data["hours"]
     gameDelta = data["delta"]
