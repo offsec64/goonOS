@@ -243,6 +243,8 @@ def llmquery():
     return jsonify({"response": data.get("response", "").strip()})
 '''
 @app.route("/llmquery", methods=["POST"])
+@login_required
+@role_required('admin')
 def llmquery():
     user_input = request.json.get("message")
 
