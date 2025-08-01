@@ -22,6 +22,7 @@ DISCORD_CHANNEL_ID = os.getenv("DISCORD_IPADDRESS_CHANNEL")
 OUTSIDE_PORT = os.getenv("OUTSIDE_PORT")
 ABSTRACT_API_KEY = os.getenv("ABSTRACT_API_KEY")
 PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 WEBAPP_VERSION = "2.1 ALPHA"
 
@@ -33,7 +34,7 @@ def make_shell_context():
 
 # ---------- Authentication Stuff ----------
 
-app.secret_key = os.urandom(24)  # Use a secure secret key, possibly move to env at some point
+app.secret_key = SECRET_KEY
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db.init_app(app)
