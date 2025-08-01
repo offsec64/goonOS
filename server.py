@@ -33,7 +33,7 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 
 OLLAMA_API_URL = f"http://{str(os.getenv('OLLAMA_API_URL'))}/api/generate"
 
-WEBAPP_VERSION = "2.1 Alpha"
+WEBAPP_VERSION = "2.3 Alpha"
 
 def query_steamstats_database(table, rows=2):
 
