@@ -142,6 +142,7 @@ def logout():
 @login_required
 @role_required('admin')
 def protected():
+    session.pop("chat_history", None)  # Clear chat history on browser refresh
     return render_template('gateway.html', user=current_user, version=WEBAPP_VERSION)
 
 # ---------- IP Logger ----------

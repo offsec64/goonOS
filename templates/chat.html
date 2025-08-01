@@ -143,6 +143,10 @@
         }
     }
 
+    async function resetChat() {
+        await fetch("/reset", { method: "POST" });
+        chatWindow.innerHTML = "";
+    }
 
     document.getElementById("message").addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
