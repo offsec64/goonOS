@@ -16,10 +16,15 @@
   </div>
 
   <!-- Header -->
-  <header class="bg-white shadow-md p-4 flex items-center justify-between">
-    <div class="text-xl font-bold text-blue-600">GoonOS Gateway</div>
-    <div class="text-sm text-gray-600">Version {{ version }}</div>
-  </header>
+    <header class="bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg border-b border-blue-800 text-white">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+        <!-- Optional logo/icon placeholder -->
+        <div class="text-2xl font-extrabold tracking-tight">GoonOS Gateway</div>
+        </div>
+        <div class="text-sm font-medium opacity-80">v{{ version }}</div>
+    </div>
+    </header>
 
   <!-- Layout -->
   <div class="flex h-[calc(100vh-64px)]">
