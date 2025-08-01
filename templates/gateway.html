@@ -27,19 +27,19 @@
 
 
     <!-- Main content -->
-    <main class="flex flex-row-reverse w-full h-[calc(100vh-160px)] px-8 py-6 gap-6">
+    <main class="flex flex-row w-full h-[calc(100vh-160px)] px-8 py-6 gap-6">
 
-    <!-- Sidebar on RIGHT -->
+    <!-- Sidebar on LEFT -->
         <aside class="w-60 flex-shrink-0">
             <div class="space-y-2">
-                <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Applications</h2>
+            <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Applications</h2>
                 <div id="pagelist" class="space-y-1">
-                    <!-- Populated via JS -->
+                    <!-- Populated by JS -->
                 </div>
             </div>
         </aside>
 
-        <!-- Main Content (left side) -->
+        <!-- Main content -->
         <section class="flex-1 rounded-xl overflow-hidden border border-gray-200 shadow-sm bg-white">
             <iframe src="{{ url_for('appletsindex') }}" id="applet-iframe" class="w-full h-full border-none"></iframe>
         </section>
@@ -47,13 +47,15 @@
     </main>
 
 
+
     <!-- Footer -->
-    <footer class="bg-white border-t text-sm text-gray-500">
-        <div class="w-full px-8 py-4 flex items-center justify-between max-w-screen-2xl mx-auto">
+    <footer class="bg-white border-t text-sm text-gray-500 w-full">
+        <div class="w-full px-8 py-4 flex justify-between">
             <span>Open-Source Software. Please Redistribute.</span>
             <a href="{{ url_for('logout') }}" class="hover:underline text-gray-600">Logout</a>
         </div>
     </footer>
+
 
     <!-- Loading Screen -->
     <div id="pagecover" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center space-y-4 text-gray-600">
