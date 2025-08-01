@@ -1,62 +1,164 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Streaming LLM Chat</title>
-    <style>
-        #chat { border: 1px solid #ccc; padding: 10px; height: 300px; overflow-y: scroll; }
-        .user, .bot { margin-bottom: 10px; }
-        .user { color: blue; }
-        .bot { color: green; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LLM Chat</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f7;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      max-width: 800px;
+      width: 100%;
+      background: white;
+      border: 1px solid #ccc;
+      margin: 40px 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .chat-header {
+      background: #4a90e2;
+      color: white;
+      padding: 16px;
+      font-size: 1.25rem;
+    }
+
+    .chat-window {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      background-color: #fafafa;
+    }
+
+    .message {
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+
+    .user {
+      color: #1f6feb;
+      font-weight: bold;
+    }
+
+    .assistant {
+      color: #10b981;
+      font-weight: bold;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 16px;
+      border-top: 1px solid #ddd;
+      background: #fff;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 10px 12px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+
+    .input-area button {
+      margin-left: 10px;
+      background: #4a90e2;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .input-area button:hover {
+      background: #357ABD;
+    }
+
+    .typing-indicator {
+      font-style: italic;
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-top: -12px;
+      margin-bottom: 12px;
+    }
+  </style>
 </head>
 <body>
-    <h2>Chat with LLM (Streaming)</h2>
-    <div id="chat"></div>
-    <input type="text" id="message" placeholder="Type a message..." />
-    <button onclick="sendMessage()">Send</button>
+  <div class="chat-container">
+    <div class="chat-header">Chat with LLM</div>
+    <div id="chat-window" class="chat-window"></div>
+    <div class="input-area">
+      <input type="text" id="message" placeholder="Type your message..." autocomplete="off" />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
 
-    <script>
-        async function sendMessage() {
-            const input = document.getElementById("message");
-            const message = input.value.trim();
-            if (!message) return;
+  <script>
+    const chatWindow = document.getElementById("chat-window");
 
-            appendMessage("user", message);
-            input.value = "";
+    function appendMessage(sender, text, isStreaming = false) {
+      const messageElem = document.createElement("div");
+      messageElem.classList.add("message");
+      messageElem.innerHTML = `<span class="${sender}">${sender === "user" ? "You" : "Assistant"}:</span> <span class="text">${text}</span>`;
+      chatWindow.appendChild(messageElem);
+      chatWindow.scrollTop = chatWindow.scrollHeight;
+      return messageElem.querySelector(".text");
+    }
 
-            const chatDiv = document.getElementById("chat");
-            const botMsg = document.createElement("div");
-            botMsg.className = "bot";
-            botMsg.textContent = "Bot: ";
-            chatDiv.appendChild(botMsg);
-            chatDiv.scrollTop = chatDiv.scrollHeight;
+    async function sendMessage() {
+      const input = document.getElementById("message");
+      const message = input.value.trim();
+      if (!message) return;
 
-            const response = await fetch("/llmquery", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ message })
-            });
+      // Show user's message
+      appendMessage("user", message);
+      input.value = "";
 
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let content = "";
+      // Placeholder for assistant response
+      const responseElem = appendMessage("assistant", "", true);
 
-            while (true) {
-                const { value, done } = await reader.read();
-                if (done) break;
-                const chunk = decoder.decode(value, { stream: true });
-                content += chunk;
-                botMsg.textContent = "Bot: " + content;
-                chatDiv.scrollTop = chatDiv.scrollHeight;
-            }
+      const response = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message })
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder("utf-8");
+      let done = false;
+      let buffer = "";
+
+      while (!done) {
+        const { value, done: readerDone } = await reader.read();
+        if (value) {
+          const chunk = decoder.decode(value, { stream: true });
+          buffer += chunk;
+          responseElem.textContent = buffer;
+          chatWindow.scrollTop = chatWindow.scrollHeight;
         }
+        done = readerDone;
+      }
+    }
 
-        function appendMessage(sender, text) {
-            const msg = document.createElement("div");
-            msg.className = sender;
-            msg.textContent = `${sender === "user" ? "You" : "Bot"}: ${text}`;
-            document.getElementById("chat").appendChild(msg);
-        }
-    </script>
+    document.getElementById("message").addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        sendMessage();
+      }
+    });
+  </script>
 </body>
 </html>

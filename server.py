@@ -263,14 +263,15 @@ def llmquery():
             "prompt": prompt,
             "stream": True
         }, stream=True) as r:
-            for line in r.iter_lines():
+            for line in r.iter_lines(decode_unicode=True):
                 if line:
-                    data = json.loads(line.decode("utf-8"))
-                    token = data.get("response", "")
-                    yield token
-        yield "[[END]]"  # optional delimiter
-
-    # Save history after the stream ends — handled client-side via a separate call or buffering
+                    try:
+                        data = json.loads(line)
+                        chunk = data.get("response", "")
+                        if chunk:
+                            yield chunk
+                    except json.JSONDecodeError:
+                        continue
 
     return Response(generate(), mimetype='text/plain')
 
