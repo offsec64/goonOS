@@ -1,60 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>GoonOS {{ version }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      background: linear-gradient(to right, #0f172a, #1e293b);
+    }
+    .glass {
+      backdrop-filter: blur(12px);
+      background-color: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100 text-gray-900 font-sans">
+<body class="text-white font-sans min-h-screen flex flex-col">
+
   <!-- Loading screen -->
-  <div id="pagecover" class="fixed inset-0 bg-white z-50 flex flex-col items-center justify-center space-y-4">
-    <div class="text-3xl font-bold text-blue-600">GoonOS Gateway</div>
-    <div id="loadtext" class="text-gray-600 text-lg">Loading... Procuring Dependencies</div>
-    <div class="text-sm text-gray-500">Welcome {{ user.username }}!</div>
+  <div id="pagecover" class="fixed inset-0 z-50 flex flex-col items-center justify-center space-y-4 bg-gray-900 text-white">
+    <div class="text-3xl font-bold text-cyan-400">GoonOS Gateway</div>
+    <div id="loadtext" class="text-lg text-gray-300">Loading... Procuring Dependencies</div>
+    <div class="text-sm text-gray-400">Welcome {{ user.username }}!</div>
   </div>
 
   <!-- Header -->
-    <header class="fixed top-4 left-4 right-4 z-40 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg border-b border-blue-800 text-white rounded-b-xl">
-    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <div class="text-2xl font-extrabold tracking-tight">GoonOS Gateway</div>
-        </div>
-        <div class="text-sm font-medium opacity-80">v{{ version }}</div>
+  <header class="fixed top-4 left-4 right-4 z-40 rounded-b-xl glass shadow-lg">
+    <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <div class="text-2xl font-extrabold tracking-wide text-cyan-300">GoonOS Gateway</div>
+      <div class="text-sm font-medium text-gray-300">v{{ version }}</div>
     </div>
-    </header>
-
-
-  <!-- Layout -->
-  <div class="pt-[88px] pb-[80px] flex h-[calc(100vh-168px)]">
-    <!-- Sidebar -->
-    <aside class="w-56 bg-white shadow-lg rounded-lg m-4 p-4 flex flex-col space-y-3">
-        <h2 class="text-sm font-semibold text-gray-600 uppercase tracking-wide">Applications</h2>
-        <div id="pagelist" class="flex flex-col space-y-2">
-            <!-- Populated by JS -->
-        </div>
-    </aside>
-
-
-    <!-- Main Content -->
-    <main class="flex-1 p-4">
-      <iframe src="{{ url_for('appletsindex') }}"
-              class="w-full h-full rounded-lg border border-gray-200"
-              id="applet-iframe"></iframe>
-    </main>
-  </div>
+  </header>
 
   <!-- Footer -->
-    <footer class="fixed bottom-4 left-4 right-4 z-40 bg-gradient-to-r from-blue-600 to-indigo-600 shadow-lg border-t border-blue-800 text-white rounded-t-xl">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between text-sm">
-            <span class="opacity-80">Open-Source Software. Please Redistribute!</span>
-            <a href="{{ url_for('logout') }}" class="hover:underline text-white font-medium">Logout</a>
+  <footer class="fixed bottom-4 left-4 right-4 z-40 rounded-t-xl glass shadow-lg">
+    <div class="max-w-7xl mx-auto px-6 py-3 flex items-center justify-between text-sm text-gray-300">
+      <span>Open-Source Software. Please Redistribute!</span>
+      <a href="{{ url_for('logout') }}" class="hover:underline text-cyan-400">Logout</a>
+    </div>
+  </footer>
+
+  <!-- Main content layout -->
+  <main class="flex-1 flex flex-col pt-[88px] pb-[80px] px-4">
+    <div class="flex flex-1 overflow-hidden rounded-2xl border border-white/10 glass shadow-xl">
+
+      <!-- Sidebar -->
+      <aside class="w-48 p-4 flex-shrink-0 flex flex-col space-y-3 border-r border-white/10">
+        <h2 class="text-xs uppercase text-gray-400 font-semibold tracking-wide">Apps</h2>
+        <div id="pagelist" class="flex flex-col space-y-2">
+          <!-- JS inserts app buttons here -->
         </div>
-    </footer>
+      </aside>
 
+      <!-- Iframe panel -->
+      <section class="flex-1 overflow-hidden">
+        <iframe
+          src="{{ url_for('appletsindex') }}"
+          id="applet-iframe"
+          class="w-full h-full border-none"
+        ></iframe>
+      </section>
+    </div>
+  </main>
 
-  <!-- JavaScript Logic -->
+  <!-- JavaScript -->
   <script>
     const routes = {
       botmanagement: {
@@ -71,15 +82,15 @@
       }
     };
 
-    const element = document.getElementById("pagelist");
-
+    const listElement = document.getElementById("pagelist");
     for (const key in routes) {
-      const item = document.createElement('button');
-      item.className = "w-full text-left px-3 py-2 rounded-md bg-gray-50 hover:bg-blue-100 text-gray-700 transition";
+      const item = document.createElement("button");
+      item.className =
+        "w-full text-left px-3 py-2 rounded-lg bg-white/10 hover:bg-cyan-500 hover:text-white transition font-medium text-sm text-gray-200";
       item.id = "applet-" + key;
       item.textContent = routes[key].name;
       item.onclick = () => loadIframe(key);
-      element.appendChild(item);
+      listElement.appendChild(item);
     }
 
     function loadIframe(routeName) {
@@ -87,13 +98,13 @@
       iframe.src = routes[routeName].url;
     }
 
-    // Fake loading screen updates
+    // Fake loading screen
     setTimeout(() => {
-      document.getElementById("loadtext").textContent = "Loading... Recompiling Linux Kernel";
+      document.getElementById("loadtext").textContent = "Loading... Recompiling Kernel Modules";
     }, 1300);
 
     setTimeout(() => {
-      document.getElementById("loadtext").textContent = "Loading... Synergizing and Streamlining";
+      document.getElementById("loadtext").textContent = "Loading... Synergizing Pipelines";
     }, 3000);
 
     setTimeout(() => {
