@@ -30,7 +30,7 @@ DB_HOST = os.getenv("DB_HOST")
 DB_USERNAME = os.getenv("DB_USERNAME")
 DB_PASSWORD = os.getenv("DB_PASSWORD")
 
-WEBAPP_VERSION = "2.1 ALPHA"
+WEBAPP_VERSION = "2.1 Alpha"
 
 def query_steamstats_database(table, rows=2):
 
@@ -227,7 +227,7 @@ def chat():
 @login_required
 @role_required('admin')
 def steamstats():
-    return render_template("steamstats.html")
+    return render_template("steamstats.html", data=query_steamstats_database('steamvr'))
 
 
 @app.route("/botmanagement", methods=["GET"])
