@@ -3,7 +3,10 @@
 
 from flask import Flask, request, jsonify, render_template, flash, redirect, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+
 from models import db, User
+from auth import role_required
+
 import requests
 import os
 import json
@@ -20,9 +23,13 @@ OUTSIDE_PORT = os.getenv("OUTSIDE_PORT")
 ABSTRACT_API_KEY = os.getenv("ABSTRACT_API_KEY")
 PATH_TO_WEBSITE = os.getenv("PATH_TO_WEBSITE")
 
-WEBAPP_VERSION = "2.0 ALPHA"
+WEBAPP_VERSION = "2.1 ALPHA"
 
 app = Flask(__name__)
+
+@app.shell_context_processor
+def make_shell_context():
+    return {'db': db, 'User': User}
 
 # ---------- Authentication Stuff ----------
 
@@ -77,6 +84,7 @@ def logout():
 
 @app.route('/dashboard')
 @login_required
+@role_required('admin')
 def protected():
     return render_template('gateway.html', user=current_user, version=WEBAPP_VERSION)
 
@@ -166,22 +174,26 @@ def reveal_ip():
 
 @app.route("/chat", methods=["GET"])
 @login_required
+@role_required('admin')
 def chat():
     return render_template("chat.html")
 
 @app.route("/steamstats", methods=["GET"])
 @login_required
+@role_required('admin')
 def steamstats():
     return render_template("steamstats.html")
 
 
 @app.route("/botmanagement", methods=["GET"])
 @login_required
+@role_required('admin')
 def botmanagement():
     return render_template("botmanagement.html")
 
 @app.route("/appletsindex", methods=["GET"])
 @login_required
+@role_required('admin')
 def appletsindex():
     return render_template("appletsindex.html")
 
