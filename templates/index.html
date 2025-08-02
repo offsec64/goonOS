@@ -25,7 +25,6 @@
         border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
-      /* Bokeh background */
       #background-blobs {
         position: fixed;
         inset: 0;
@@ -53,7 +52,6 @@
         100% { transform: translate(0, 0) scale(1.1); }
       }
 
-      /* Scroll-triggered animations */
       .hidden-observed {
         opacity: 0;
         transform: translateY(20px);
@@ -87,7 +85,6 @@
         transform: scale(1) !important;
       }
 
-      /* Animated footer links */
       .footer-link {
         position: relative;
         display: inline-block;
@@ -117,16 +114,12 @@
   </head>
 
   <body class="text-white font-[Inter] relative overflow-x-hidden">
-
-    <!-- Bokeh Background -->
     <div id="background-blobs" aria-hidden="true"></div>
 
-    <!-- Banner -->
     <div class="text-sm text-white text-center py-3 bg-gradient-to-r from-cyan-500 to-blue-500">
       Newly Synergized Business-To-Business (B2B) Products available now!
     </div>
 
-    <!-- Hero Section -->
     <header class="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-20 py-20">
       <img src="./static/images/standing-10.svg" alt="Hero Image" class="w-64 lg:w-96 mb-8 lg:mb-0" />
       <div class="glass p-8 rounded-2xl shadow-xl max-w-2xl text-center lg:text-left hidden-slide-left" data-animate="animate-slide-left">
@@ -136,33 +129,76 @@
       </div>
     </header>
 
-    <!-- Main Content Section -->
-    <section class="px-8 lg:px-20 space-y-12 py-16">
-      <div class="glass p-8 rounded-xl shadow-lg hidden-observed" data-animate="animate-fade-in-up">
-        <h2 class="text-2xl font-bold mb-4">What We Do</h2>
-        <p class="text-gray-300">GoonTech™ propels forward-thinking enterprises into a new era of optimized operationalization through the strategic deployment of advanced analytical frameworks. We leverage next-generation methodologies to deconstruct complex data landscapes, fostering a profound understanding of intricate systemic interactions.</p>
-      </div>
-      <div class="glass p-8 rounded-xl shadow-lg hidden-slide-left" data-animate="animate-slide-left">
-        <h2 class="text-2xl font-bold mb-4">Why GoonTech™</h2>
-        <p class="text-gray-300">We specialize in predictive intelligence, delivering actionable foresight that recalibrates strategic trajectories. Our platforms facilitate dynamic insights that transcend conventional paradigms, driving sustainable outcomes for clients worldwide.</p>
+    <!-- Solutions Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8">
+      <div class="glass p-8 max-w-4xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Our Solutions</h2>
+        <p class="text-gray-300">From predictive AI to behavioral analytics, GoonSoft builds robust, scalable platforms that power decisions across enterprises...</p>
       </div>
     </section>
 
-    <!-- Founder Story -->
-    <section class="px-8 lg:px-20 py-16 space-y-16">
-      <div class="flex flex-col lg:flex-row items-center gap-8 hidden-zoom" data-animate="animate-zoom-in">
-        <img src="./static/images/sitting-3.svg" class="w-60" />
-        <div class="glass p-6 rounded-xl">
-          <h3 class="text-xl font-semibold mb-2">The Genesis of GoonTech™</h3>
-          <p class="text-gray-300">Founded by a computational neuroscientist and an ethical AI pioneer, GoonTech™ was born from a passion for data-driven empathy in gaming and beyond.</p>
+    <!-- Case Studies Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8 bg-gradient-to-b from-transparent to-black">
+      <div class="glass p-8 max-w-4xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Case Studies</h2>
+        <p class="text-gray-300">We helped a Fortune 500 telecom reduce churn by 38% using predictive engagement...</p>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8">
+      <div class="glass p-8 max-w-4xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Our Mission</h2>
+        <p class="text-gray-300">We believe technology should enhance empathy, not replace it...</p>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8 bg-gradient-to-t from-black to-transparent">
+      <div class="glass p-8 max-w-5xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Meet Our Team</h2>
+        <p class="text-gray-300 mb-4">Our team is a blend of neuroscientists, AI ethicists, full-stack engineers...</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+          <div class="glass p-4 rounded-lg">
+            <h3 class="font-semibold">Dr. Kyra Lin</h3>
+            <p class="text-sm text-gray-400">Chief Neuroscience Officer</p>
+          </div>
+          <div class="glass p-4 rounded-lg">
+            <h3 class="font-semibold">Leo Tran</h3>
+            <p class="text-sm text-gray-400">Head of Engineering</p>
+          </div>
+          <div class="glass p-4 rounded-lg">
+            <h3 class="font-semibold">Sarah Gomez</h3>
+            <p class="text-sm text-gray-400">Director of AI Ethics</p>
+          </div>
+          <div class="glass p-4 rounded-lg">
+            <h3 class="font-semibold">Raj Patel</h3>
+            <p class="text-sm text-gray-400">Lead Data Strategist</p>
+          </div>
         </div>
       </div>
-      <div class="flex flex-col lg:flex-row-reverse items-center gap-8 hidden-observed" data-animate="animate-fade-in-up">
-        <img src="./static/images/standing-19.svg" class="w-60" />
-        <div class="glass p-6 rounded-xl">
-          <h3 class="text-xl font-semibold mb-2">A Shared Vision</h3>
-          <p class="text-gray-300">With a vision for a more thoughtful digital world, GoonTech™ combines neuroscience and ethical AI to build tech that uplifts communities and enhances well-being.</p>
-        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8">
+      <div class="glass p-8 max-w-2xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
+        <p class="text-gray-300">Want to explore how GoonSoft can help your business?</p>
+        <form class="mt-6 space-y-4">
+          <input type="text" placeholder="Your Name" class="w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500">
+          <input type="email" placeholder="Your Email" class="w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500">
+          <textarea placeholder="Your Message" class="w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500"></textarea>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded-lg text-white font-semibold">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 lg:px-20 py-20 bg-gradient-to-r from-blue-600 to-purple-700">
+      <div class="max-w-3xl">
+        <h2 class="text-4xl font-extrabold mb-6">Ready to see what GoonSoft can do?</h2>
+        <p class="text-lg mb-8 text-white/90">Let’s build the future of intelligent systems together...</p>
+        <a href="#" class="bg-white text-blue-700 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition">Partner With Us</a>
       </div>
     </section>
 
@@ -182,19 +218,16 @@
       </div>
     </footer>
 
-    <!-- Animated Popup -->
-    <div id="popup1" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div class="glass p-6 rounded-xl w-[90%] max-w-lg shadow-2xl space-y-4 text-center">
-        <img src="./static/images/goonmobile.png" class="mx-auto w-32" />
-        <h2 class="text-xl font-semibold text-white">🚗 GoonMobile™ – Your AI Co-Pilot</h2>
-        <p class="text-gray-300">Get 10% off our newest product that brings AI to your vehicle!</p>
-        <p class="text-gray-500 text-xs italic">*Not responsible for dead batteries. RS232 cable sold separately.</p>
-        <button onclick="toggle()" class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-lg text-white transition">No thanks</button>
-      </div>
-    </div>
-
-    <!-- Scroll Animation Script -->
+    <!-- Popup + Scroll Animations -->
     <script>
+      setTimeout(() => {
+        document.getElementById("popup1")?.classList.remove("hidden");
+      }, 2000);
+
+      function toggle() {
+        document.getElementById("popup1")?.classList.add("hidden");
+      }
+
       const observer = new IntersectionObserver(
         entries => {
           entries.forEach(entry => {
@@ -212,17 +245,5 @@
         observer.observe(el);
       });
     </script>
-
-    <!-- Popup Script -->
-    <script>
-      setTimeout(() => {
-        document.getElementById("popup1").classList.remove("hidden");
-      }, 2000);
-
-      function toggle() {
-        document.getElementById("popup1").classList.add("hidden");
-      }
-    </script>
-
   </body>
 </html>
