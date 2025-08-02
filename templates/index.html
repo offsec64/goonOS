@@ -15,7 +15,7 @@
 
     <style>
       body {
-        background: radial-gradient(circle at top left, #1a1a2e, #16161a, #0f0f1a);
+        background: #0e0e14;
       }
 
       .glass {
@@ -25,7 +25,35 @@
         border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
-      /* Animation Definitions */
+      /* Bokeh background */
+      #background-blobs {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      #background-blobs::before {
+        content: '';
+        position: absolute;
+        width: 300%;
+        height: 300%;
+        background: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1), transparent 30%),
+                    radial-gradient(circle at 80% 70%, rgba(255, 0, 200, 0.08), transparent 40%),
+                    radial-gradient(circle at 50% 50%, rgba(100, 100, 255, 0.06), transparent 50%);
+        filter: blur(100px);
+        animation: moveBlobs 60s ease-in-out infinite;
+        transform: scale(1.1);
+      }
+
+      @keyframes moveBlobs {
+        0% { transform: translate(0, 0) scale(1.1); }
+        50% { transform: translate(-5%, -3%) scale(1.2); }
+        100% { transform: translate(0, 0) scale(1.1); }
+      }
+
+      /* Scroll-triggered animations */
       .hidden-observed {
         opacity: 0;
         transform: translateY(20px);
@@ -59,7 +87,7 @@
         transform: scale(1) !important;
       }
 
-      /* Animated underline links */
+      /* Animated footer links */
       .footer-link {
         position: relative;
         display: inline-block;
@@ -89,6 +117,9 @@
   </head>
 
   <body class="text-white font-[Inter] relative overflow-x-hidden">
+
+    <!-- Bokeh Background -->
+    <div id="background-blobs" aria-hidden="true"></div>
 
     <!-- Banner -->
     <div class="text-sm text-white text-center py-3 bg-gradient-to-r from-cyan-500 to-blue-500">
@@ -162,7 +193,7 @@
       </div>
     </div>
 
-    <!-- Scroll Animations -->
+    <!-- Scroll Animation Script -->
     <script>
       const observer = new IntersectionObserver(
         entries => {
@@ -182,7 +213,7 @@
       });
     </script>
 
-    <!-- Popup Show -->
+    <!-- Popup Script -->
     <script>
       setTimeout(() => {
         document.getElementById("popup1").classList.remove("hidden");
