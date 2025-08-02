@@ -12,6 +12,7 @@
         darkMode: 'media',
       };
     </script>
+
     <style>
       body {
         background: radial-gradient(circle at top left, #1a1a2e, #16161a, #0f0f1a);
@@ -24,49 +25,65 @@
         border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
-      @keyframes fadeInUp {
-        from {
-          opacity: 0;
-          transform: translateY(20px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      /* Animation Definitions */
+      .hidden-observed {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease-out;
       }
 
-      @keyframes zoomIn {
-        from {
-          opacity: 0;
-          transform: scale(0.95);
-        }
-        to {
-          opacity: 1;
-          transform: scale(1);
-        }
+      .animate-fade-in-up {
+        opacity: 1 !important;
+        transform: translateY(0px) !important;
       }
 
-      @keyframes slideInLeft {
-        from {
-          opacity: 0;
-          transform: translateX(-30px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
+      .hidden-slide-left {
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: all 0.7s ease-out;
       }
 
-      .fade-in-up {
-        animation: fadeInUp 1s ease-out both;
+      .animate-slide-left {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
       }
 
-      .zoom-in {
-        animation: zoomIn 0.8s ease-out both;
+      .hidden-zoom {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: all 0.6s ease;
       }
 
-      .slide-in-left {
-        animation: slideInLeft 0.9s ease-out both;
+      .animate-zoom-in {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+      }
+
+      /* Animated underline links */
+      .footer-link {
+        position: relative;
+        display: inline-block;
+        padding-bottom: 2px;
+        transition: color 0.3s;
+      }
+
+      .footer-link::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: white;
+        transition: width 0.3s ease;
+      }
+
+      .footer-link:hover::after {
+        width: 100%;
+      }
+
+      .footer-link:hover {
+        color: white;
       }
     </style>
   </head>
@@ -79,9 +96,9 @@
     </div>
 
     <!-- Hero Section -->
-    <header class="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-20 py-20 fade-in-up">
-      <img src="./static/images/standing-10.svg" alt="Hero Image" class="w-64 lg:w-96 mb-8 lg:mb-0 animate-fade-in" />
-      <div class="glass p-8 rounded-2xl shadow-xl max-w-2xl text-center lg:text-left slide-in-left">
+    <header class="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-20 py-20">
+      <img src="./static/images/standing-10.svg" alt="Hero Image" class="w-64 lg:w-96 mb-8 lg:mb-0" />
+      <div class="glass p-8 rounded-2xl shadow-xl max-w-2xl text-center lg:text-left hidden-slide-left" data-animate="animate-slide-left">
         <p class="uppercase tracking-widest text-blue-400 text-sm mb-2">Telemetry • Behavior • Prediction</p>
         <h1 class="text-3xl lg:text-5xl font-extrabold mb-4">Intelligent Solutions Powered by AI</h1>
         <p class="text-gray-300">Where Cognitive AI and Machine Learning Synergize to Drive Hyper-Automation and Predictive Analytics for Unrivaled Intelligent Solutions.</p>
@@ -90,11 +107,11 @@
 
     <!-- Main Content Section -->
     <section class="px-8 lg:px-20 space-y-12 py-16">
-      <div class="glass p-8 rounded-xl shadow-lg zoom-in">
+      <div class="glass p-8 rounded-xl shadow-lg hidden-observed" data-animate="animate-fade-in-up">
         <h2 class="text-2xl font-bold mb-4">What We Do</h2>
         <p class="text-gray-300">GoonTech™ propels forward-thinking enterprises into a new era of optimized operationalization through the strategic deployment of advanced analytical frameworks. We leverage next-generation methodologies to deconstruct complex data landscapes, fostering a profound understanding of intricate systemic interactions.</p>
       </div>
-      <div class="glass p-8 rounded-xl shadow-lg fade-in-up">
+      <div class="glass p-8 rounded-xl shadow-lg hidden-slide-left" data-animate="animate-slide-left">
         <h2 class="text-2xl font-bold mb-4">Why GoonTech™</h2>
         <p class="text-gray-300">We specialize in predictive intelligence, delivering actionable foresight that recalibrates strategic trajectories. Our platforms facilitate dynamic insights that transcend conventional paradigms, driving sustainable outcomes for clients worldwide.</p>
       </div>
@@ -102,14 +119,14 @@
 
     <!-- Founder Story -->
     <section class="px-8 lg:px-20 py-16 space-y-16">
-      <div class="flex flex-col lg:flex-row items-center gap-8 zoom-in">
+      <div class="flex flex-col lg:flex-row items-center gap-8 hidden-zoom" data-animate="animate-zoom-in">
         <img src="./static/images/sitting-3.svg" class="w-60" />
         <div class="glass p-6 rounded-xl">
           <h3 class="text-xl font-semibold mb-2">The Genesis of GoonTech™</h3>
           <p class="text-gray-300">Founded by a computational neuroscientist and an ethical AI pioneer, GoonTech™ was born from a passion for data-driven empathy in gaming and beyond.</p>
         </div>
       </div>
-      <div class="flex flex-col lg:flex-row-reverse items-center gap-8 fade-in-up">
+      <div class="flex flex-col lg:flex-row-reverse items-center gap-8 hidden-observed" data-animate="animate-fade-in-up">
         <img src="./static/images/standing-19.svg" class="w-60" />
         <div class="glass p-6 rounded-xl">
           <h3 class="text-xl font-semibold mb-2">A Shared Vision</h3>
@@ -118,27 +135,25 @@
       </div>
     </section>
 
-    <!-- Footer (separate solid section) -->
-    <footer class="px-8 lg:px-20 py-8 text-gray-400 text-sm bg-gray-950 border-t border-gray-700">
-      <div class="flex flex-col lg:flex-row justify-between items-start gap-6">
-        <div>
-          <p class="text-white text-lg font-bold">GoonTech™</p>
-          <p>A division of GoonSoft</p>
-        </div>
-        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <a href="#" class="hover:text-white transition">About</a>
-          <a href="{{ url_for('login') }}" class="hover:text-white transition">Corporate Login</a>
-          <a href="#" class="hover:text-white transition">Investor Relations</a>
-          <a href="#" class="hover:text-white transition">B2B</a>
-          <a href="#" class="hover:text-white transition">Paycheck Advance</a>
-          <a href="#" class="hover:text-white transition">Microsoft Rewards</a>
-        </div>
+    <!-- Footer -->
+    <footer class="px-6 lg:px-20 py-10 text-gray-400 text-sm bg-gray-950 border-t border-gray-700">
+      <div class="text-center mb-6">
+        <p class="text-white text-lg font-bold">GoonTech™</p>
+        <p class="text-gray-400">A division of GoonSoft</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-center">
+        <a href="#" class="footer-link">About</a>
+        <a href="{{ url_for('login') }}" class="footer-link">Corporate Login</a>
+        <a href="#" class="footer-link">Investor Relations</a>
+        <a href="#" class="footer-link">Business-To-Business</a>
+        <a href="#" class="footer-link">Paycheck Advance</a>
+        <a href="#" class="footer-link">Microsoft Rewards</a>
       </div>
     </footer>
 
     <!-- Animated Popup -->
     <div id="popup1" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div class="glass p-6 rounded-xl w-[90%] max-w-lg shadow-2xl space-y-4 text-center zoom-in">
+      <div class="glass p-6 rounded-xl w-[90%] max-w-lg shadow-2xl space-y-4 text-center">
         <img src="./static/images/goonmobile.png" class="mx-auto w-32" />
         <h2 class="text-xl font-semibold text-white">🚗 GoonMobile™ – Your AI Co-Pilot</h2>
         <p class="text-gray-300">Get 10% off our newest product that brings AI to your vehicle!</p>
@@ -147,6 +162,27 @@
       </div>
     </div>
 
+    <!-- Scroll Animations -->
+    <script>
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const animateClass = entry.target.getAttribute('data-animate');
+              entry.target.classList.add(animateClass);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      document.querySelectorAll('[data-animate]').forEach(el => {
+        observer.observe(el);
+      });
+    </script>
+
+    <!-- Popup Show -->
     <script>
       setTimeout(() => {
         document.getElementById("popup1").classList.remove("hidden");
@@ -156,5 +192,6 @@
         document.getElementById("popup1").classList.add("hidden");
       }
     </script>
+
   </body>
 </html>
