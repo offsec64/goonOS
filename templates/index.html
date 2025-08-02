@@ -1,120 +1,249 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/indexStyles.css') }}">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
-    
-    </head>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GoonSoft</title>
 
-    <body>
-        <div class="banner">
-            Newly Synergized Business-To-Business (B2B) Products available now! Talk to your authorized reseller for more info!
-        </div>
-
-
-        <div id="header">
-
-            <img src="./static/images/standing-10.svg" id="headerimage">
-            <div id="headertextcontainer">
-                <div class="flexspacer"></div>
-                <div class="accent-text">Telemetry &bull; Behavior &bull; Prediction</div>
-                <a id="headertext">Where Cognitive AI and Machine Learning Synergize to Drive Hyper-Automation and Predictive Analytics for Unrivaled Intelligent Solutions.</a>
-                <div class="flexspacer"></div>
-            </div>
-        </div>
-
-        <div class='wave-top'></div>
-        <div class="wave-mid">
-            <p>GoonTech™ propels forward-thinking enterprises into a new era of optimized operationalization through the strategic deployment of advanced analytical frameworks. We leverage next-generation methodologies to deconstruct complex data landscapes, fostering a profound understanding of intricate systemic interactions. Our proprietary platforms facilitate the seamless integration of diverse informational streams, enabling a dynamic interplay of insights that transcend conventional paradigms.</p>
-            <p>Our core competency lies in the architecting of scalable solutions that empower organizations to harness the transformative potential of granular data sets. We specialize in the meticulous orchestration of predictive intelligence, delivering actionable foresight that recalibrates strategic trajectories. By fostering a synergistic environment of continuous improvement and iterative refinement, GoonTech™ empowers clients to unlock unprecedented levels of efficiency and drive sustainable, impactful outcomes</p>
-            </div>
-        <div class="wave-bottom"></div>
-
-        <div id="about">
-            <div class="section">
-                <div class="headerandimage">
-                    <a>The Genesis of GoonTech™</a>
-                    <img src="./static/images/sitting-3.svg">
-                </div>
-                <a>GoonTech™ was founded by a duo of visionary individuals, both pioneers in their respective fields: a leading mind in computational neuroscience and a seasoned expert in ethical AI development. Their journey began not in a sterile corporate boardroom, but in the vibrant, sometimes chaotic, world of competitive gaming. It was here, amidst countless hours of gameplay and shared frustrations over opaque player experiences, that a shared conviction began to crystallize: the immense, untapped potential of understanding human behavior through the lens of data.</a>
-            </div>
-
-            <div class="section">
-                <a>One, with a profound understanding of the brain's intricate mechanisms, saw data not just as numbers, but as echoes of human decision-making and emotion. The other, deeply committed to responsible technology, was acutely aware of the ethical tightrope walk inherent in data collection and analysis. Having witnessed firsthand the impact of player psychology on game design and community health, they both yearned for tools that could truly illuminate the "why" behind player actions. They weren't just looking to extract value; they wanted to contribute meaningfully. Their honesty and idealism fueled their mission: to leverage cutting-edge AI to not only dissect and understand the nuances of human interaction within digital environments but to do so in a way that genuinely enhances well-being, fosters positive communities, and ultimately, helps create a more thoughtful and empathetic digital world. GoonTech™ was born from this unwavering belief that technology, wielded with integrity, can indeed make the world a better place, one insight at a time.</a>
-                <div class="headerandimage">
-                    <a>A Shared Vision for a Better Digital World</a>
-                    <img src="./static/images/standing-19.svg">
-                </div>
-            </div>
-        </div>
-
-
-        <div class="footer">
-
-            <div class="branding">
-                <a class="logo">GoonTech™</a>
-                A division of GoonSoft
-            </div>
-
-            <div class="flexspacer"></div>
-
-            <div class="menu">
-                <a href="#">About</a>
-                <a href="{{ url_for('login') }}">Corporate Login</a>
-                <a href="#">Investor Relations</a>
-                <a href="#">Business-To-Business (B2B)</a>
-                <a href="#">Paycheck Advance Portal</a>
-                <a href="#">Microsoft Rewards Affiliate Referral</a>
-            </div>
-        </div>
-
-        <div id="popup1">
-            <a class="accent-text">Limited Time Offer!</a>
-            <div class="popupsection">
-                <div class="headerandimage">
-                    <img src="./static/images/goonmobile.png">
-                </div>
-                <a>For a limited time, get an<i>&nbsp;exclusive offer&nbsp;</i>on our newest product, the GoonMobile™. This convinient little device plugs in to the existing OBD2 port on your vehicle and unleashes a whole world of possibilities. With the onboard Neural Processing Unit (NPU), your car gets AI (artificial intilligence) 24/7! Even while your car is off, the 100 watt chip* can run a local AI chatbot OR connect directly to ChatGPT to be at your service. The GoonMobile™ Connect App for iPhone and iPad lets you tap in to the galaxy of possibilities† unleashed by the GoonMobile™. There's even a social app that lets you compare phone usage with friends. Compete with other drivers to get the most screen usage while behind the wheel!</a>
-            </div>
-            <div class="flexspacer"></div>
-            <a class="offertext">Call NOW to get 10% off the new GoonMobile™§!!!</a>
-            <a class="offertext">1-900-555-6968</a>
-            <div class="flexspacer"></div>
-            <a class="fineprint">*Not responsible for dead car batteries. Consult your owner's manual before connecting accessories.</a>
-            <a class="fineprint">†Requires RS232 to USB-C cable (sold separately).</a>
-            <a class="fineprint">§This is the opposite of a toll-free number, in that it will literally raise your phone bill.</a>
-            <div class="flexspacer"></div>
-            <div class="nopad_section">
-                <div class="flexspacer"></div>
-                <a id="closebutton" onclick="toggle()">No thanks, I'm boring and hate cool stuff.</a>
-                <div class="flexspacer">
-
-                </div>
-            </div>
-        
-            </div>
-
-
-    </body>
-
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
-
-        setTimeout(() => {
-      var x = document.getElementById("popup1");x.style.display = "flex";
-    }, 2000);
-        
-
-        function toggle() {
-            var x = document.getElementById("popup1");
-            x.style.display = "none";
-        }
+      tailwind.config = {
+        darkMode: 'media',
+      };
     </script>
 
+    <style>
+      body {
+        background: #0e0e14;
+      }
 
+      .glass {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+      }
 
+      #background-blobs {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      #background-blobs::before {
+        content: '';
+        position: absolute;
+        width: 300%;
+        height: 300%;
+        background: radial-gradient(circle at 20% 30%, rgba(0, 255, 255, 0.1), transparent 30%),
+                    radial-gradient(circle at 80% 70%, rgba(255, 0, 200, 0.08), transparent 40%),
+                    radial-gradient(circle at 50% 50%, rgba(100, 100, 255, 0.06), transparent 50%);
+        filter: blur(100px);
+        animation: moveBlobs 60s ease-in-out infinite;
+        transform: scale(1.1);
+      }
+
+      @keyframes moveBlobs {
+        0% { transform: translate(0, 0) scale(1.1); }
+        50% { transform: translate(-5%, -3%) scale(1.2); }
+        100% { transform: translate(0, 0) scale(1.1); }
+      }
+
+      .hidden-observed {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.6s ease-out;
+      }
+
+      .animate-fade-in-up {
+        opacity: 1 !important;
+        transform: translateY(0px) !important;
+      }
+
+      .hidden-slide-left {
+        opacity: 0;
+        transform: translateX(-30px);
+        transition: all 0.7s ease-out;
+      }
+
+      .animate-slide-left {
+        opacity: 1 !important;
+        transform: translateX(0) !important;
+      }
+
+      .hidden-zoom {
+        opacity: 0;
+        transform: scale(0.95);
+        transition: all 0.6s ease;
+      }
+
+      .animate-zoom-in {
+        opacity: 1 !important;
+        transform: scale(1) !important;
+      }
+
+      .footer-link {
+        position: relative;
+        display: inline-block;
+        padding-bottom: 2px;
+        transition: color 0.3s;
+      }
+
+      .footer-link::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: 0;
+        left: 0;
+        background-color: white;
+        transition: width 0.3s ease;
+      }
+
+      .footer-link:hover::after {
+        width: 100%;
+      }
+
+      .footer-link:hover {
+        color: white;
+      }
+    </style>
+  </head>
+
+  <body class="text-white font-[Inter] relative overflow-x-hidden">
+    <div id="background-blobs" aria-hidden="true"></div>
+
+    <div class="text-sm text-white text-center py-3 bg-gradient-to-r from-cyan-500 to-blue-500">
+      Newly Synergized Business-To-Business (B2B) Products available now!
+    </div>
+
+    <header class="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-20 py-20">
+      <img src="./static/images/standing-10.svg" alt="Hero Image" class="w-64 lg:w-96 mb-8 lg:mb-0" />
+      <div class="glass p-8 rounded-2xl shadow-xl max-w-2xl text-center lg:text-left hidden-slide-left" data-animate="animate-slide-left">
+        <p class="uppercase tracking-widest text-blue-400 text-sm mb-2">Telemetry • Behavior • Prediction</p>
+        <h1 class="text-3xl lg:text-5xl font-extrabold mb-4">Intelligent Solutions Powered by AI</h1>
+        <p class="text-gray-300">Where Cognitive AI and Machine Learning Synergize to Drive Hyper-Automation and Predictive Analytics for Unrivaled Intelligent Solutions.</p>
+      </div>
+    </header>
+
+    <!-- Solutions Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8">
+      <div class="glass p-8 max-w-4xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Our Solutions</h2>
+        <p class="text-gray-300">From predictive AI to behavioral analytics, GoonSoft builds robust, scalable platforms that power decisions across enterprises...</p>
+      </div>
+    </section>
+
+    <!-- Case Studies Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8 bg-gradient-to-b from-transparent to-black">
+      <div class="glass p-8 max-w-4xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Case Studies</h2>
+        <p class="text-gray-300">We helped a Fortune 500 telecom reduce churn by 38% using predictive engagement...</p>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8">
+      <div class="glass p-8 max-w-4xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Our Mission</h2>
+        <p class="text-gray-300">We believe technology should enhance empathy, not replace it...</p>
+      </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8 bg-gradient-to-t from-black to-transparent">
+      <div class="glass p-8 max-w-5xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Meet Our Team</h2>
+        <p class="text-gray-300 mb-4">Our team is a blend of neuroscientists, AI ethicists, full-stack engineers...</p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mt-6">
+          <div class="glass p-4 rounded-lg">
+            <h3 class="font-semibold">Dr. Kyra Lin</h3>
+            <p class="text-sm text-gray-400">Chief Neuroscience Officer</p>
+          </div>
+          <div class="glass p-4 rounded-lg">
+            <h3 class="font-semibold">Leo Tran</h3>
+            <p class="text-sm text-gray-400">Head of Engineering</p>
+          </div>
+          <div class="glass p-4 rounded-lg">
+            <h3 class="font-semibold">Sarah Gomez</h3>
+            <p class="text-sm text-gray-400">Director of AI Ethics</p>
+          </div>
+          <div class="glass p-4 rounded-lg">
+            <h3 class="font-semibold">Raj Patel</h3>
+            <p class="text-sm text-gray-400">Lead Data Strategist</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center px-6 lg:px-20 py-16 space-y-8">
+      <div class="glass p-8 max-w-2xl rounded-xl text-center">
+        <h2 class="text-3xl font-bold mb-4">Contact Us</h2>
+        <p class="text-gray-300">Want to explore how GoonSoft can help your business?</p>
+        <form class="mt-6 space-y-4">
+          <input type="text" placeholder="Your Name" class="w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500">
+          <input type="email" placeholder="Your Email" class="w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500">
+          <textarea placeholder="Your Message" class="w-full p-3 rounded bg-gray-800 text-white placeholder-gray-500"></textarea>
+          <button type="submit" class="bg-blue-600 hover:bg-blue-700 transition px-6 py-3 rounded-lg text-white font-semibold">Send Message</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="min-h-screen flex flex-col justify-center items-center text-center px-6 lg:px-20 py-20 bg-gradient-to-r from-blue-600 to-purple-700">
+      <div class="max-w-3xl">
+        <h2 class="text-4xl font-extrabold mb-6">Ready to see what GoonSoft can do?</h2>
+        <p class="text-lg mb-8 text-white/90">Let’s build the future of intelligent systems together...</p>
+        <a href="#" class="bg-white text-blue-700 font-semibold px-8 py-3 rounded-lg hover:bg-gray-100 transition">Partner With Us</a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="px-6 lg:px-20 py-10 text-gray-400 text-sm bg-gray-950 border-t border-gray-700">
+      <div class="text-center mb-6">
+        <p class="text-white text-lg font-bold">GoonTech™</p>
+        <p class="text-gray-400">A division of GoonSoft</p>
+      </div>
+      <div class="flex flex-wrap justify-center gap-x-6 gap-y-3 text-center">
+        <a href="#" class="footer-link">About</a>
+        <a href="{{ url_for('login') }}" class="footer-link">Corporate Login</a>
+        <a href="#" class="footer-link">Investor Relations</a>
+        <a href="#" class="footer-link">Business-To-Business</a>
+        <a href="#" class="footer-link">Paycheck Advance</a>
+        <a href="#" class="footer-link">Microsoft Rewards</a>
+      </div>
+    </footer>
+
+    <!-- Popup + Scroll Animations -->
+    <script>
+      setTimeout(() => {
+        document.getElementById("popup1")?.classList.remove("hidden");
+      }, 2000);
+
+      function toggle() {
+        document.getElementById("popup1")?.classList.add("hidden");
+      }
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              const animateClass = entry.target.getAttribute('data-animate');
+              entry.target.classList.add(animateClass);
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      document.querySelectorAll('[data-animate]').forEach(el => {
+        observer.observe(el);
+      });
+    </script>
+  </body>
 </html>
