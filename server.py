@@ -184,19 +184,33 @@ def reveal_ip():
 
 @app.route('/manage-users', methods=['GET', 'POST'])
 @login_required
-@role_required('admin')  # only admins should access
+@role_required('admin')
 def manage_users():
     if request.method == 'POST':
         user_id = request.form.get('user_id')
-        new_role = request.form.get('new_role')
+        action = request.form.get('action')
         user = User.query.get(user_id)
-        if user and new_role in ['admin', 'user']:
-            user.role = new_role
-            db.session.commit()
-        return redirect(url_for('manage_users'))
 
-    users = User.query.all()
-    return render_template('manage_users.html', users=users)
+        if user and str(user.id) != str(current_user.id):  # prevent self action
+            if action == 'promote':
+                user.role = 'admin'
+            elif action == 'demote':
+                user.role = 'user'
+            elif action == 'delete':
+                db.session.delete(user)
+            db.session.commit()
+        return redirect(url_for('manage_users', q=request.args.get('q', ''), page=request.args.get('page', 1)))
+
+    query = User.query
+    search_term = request.args.get('q', '')
+    if search_term:
+        query = query.filter(User.username.ilike(f'%{search_term}%'))
+
+    page = int(request.args.get('page', 1))
+    per_page = 5
+    users = query.paginate(page=page, per_page=per_page)
+
+    return render_template('manage_users.html', users=users, q=search_term)
 
 @app.route("/chat", methods=["GET"])
 @login_required
