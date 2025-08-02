@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen p-6">
+
+  <div class="max-w-4xl mx-auto bg-white p-6 rounded-lg shadow">
+    <h1 class="text-2xl font-bold mb-4">User Management</h1>
+
+    <table class="w-full table-auto border-collapse">
+      <thead>
+        <tr class="bg-gray-200 text-left text-sm">
+          <th class="p-3">Username</th>
+          <th class="p-3">Role</th>
+          <th class="p-3">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+        <tr class="border-t text-sm">
+          <td class="p-3">{{ user.username }}</td>
+          <td class="p-3">{{ user.role }}</td>
+          <td class="p-3">
+            <form method="post" class="flex gap-2">
+              <input type="hidden" name="user_id" value="{{ user.id }}">
+              {% if user.role != 'admin' %}
+              <button name="new_role" value="admin"
+                      class="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">
+                Promote to Admin
+              </button>
+              {% else %}
+              <button name="new_role" value="user"
+                      class="bg-gray-500 text-white px-3 py-1 rounded hover:bg-gray-600">
+                Demote to User
+              </button>
+              {% endif %}
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+</body>
+</html>

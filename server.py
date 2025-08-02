@@ -182,7 +182,21 @@ def reveal_ip():
 
 # ---------- Subroutes for iframes ----------
 
+@app.route('/manage-users', methods=['GET', 'POST'])
+@login_required
+@role_required('admin')  # only admins should access
+def manage_users():
+    if request.method == 'POST':
+        user_id = request.form.get('user_id')
+        new_role = request.form.get('new_role')
+        user = User.query.get(user_id)
+        if user and new_role in ['admin', 'user']:
+            user.role = new_role
+            db.session.commit()
+        return redirect(url_for('manage_users'))
 
+    users = User.query.all()
+    return render_template('manage_users.html', users=users)
 
 @app.route("/chat", methods=["GET"])
 @login_required
