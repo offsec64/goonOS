@@ -1,176 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>GoonOS {{ version }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #f9fafb;
-    }
+    <head>
+        <title>GoonOS {{ version }}</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/gatewayStyles.css') }}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
+    </head>
 
-    #pagecover.fade-out {
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.8s ease;
-    }
-  </style>
-</head>
-
-    <body class="font-sans min-h-screen flex flex-col text-gray-800 bg-gradient-to-br from-gray-100 via-white to-gray-200 dark:text-gray-100 dark:bg-gradient-to-br dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
-
-
-    <!-- Header -->
-    <header class="sticky top-0 w-full z-40 border-b shadow-md bg-white dark:bg-gray-900 dark:border-gray-700">
-        <div class="w-full px-8 py-4 flex items-center justify-between">
-            
-            <!-- Left side -->
-            <div class="flex flex-col leading-tight">
-                <span class="text-xl font-semibold tracking-tight">GoonOS Gateway</span>
-                <span class="text-sm text-gray-500">Logged in as {{ user.username }}</span>
-            </div>
-
-            <!-- Right side -->
-            <div class="flex items-center space-x-4">
-                <span class="text-sm text-gray-500">v{{ version }}</span>
-                <a href="{{ url_for('logout') }}" class="text-sm text-blue-600 hover:underline font-medium">Logout</a>
-            </div>
+    <body>
+        <div id="menubar">
+            <a id="logo">GoonOS Gateway </a>
+            <a class="accent-text">{{ version }}</a>
+            <div class="flexspacer"></div>
 
         </div>
-    </header>
 
-
-    <!-- Main content -->
-    <main class="flex flex-row w-full flex-grow px-8 py-6 gap-6">
-    <!-- Sidebar -->
-        <aside class="w-60 flex-shrink-0 rounded-lg shadow-md border border-white/30 bg-white/30 backdrop-blur-md p-4 dark:bg-white/10 dark:border-white/20">
-
-            <div class="space-y-2">
-            <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">Applications</h2>
-                <div id="pagelist" class="space-y-1">
-                    <!-- Populated by JS -->
-                </div>
+        <!-- Main Window -->
+        <div id="pagestructure">
+            <div id="pagelist">
+                <!--Content will be automatically added according to applets.json-->
             </div>
-        </aside>
-
-    <!-- Main Content -->
-        <section class="flex-1 rounded-xl overflow-hidden border border-gray-200 shadow-lg bg-white">
-            <iframe src="{{ url_for('appletsindex') }}" id="applet-iframe" class="w-full h-full border-none"></iframe>
-        </section>
-    </main>
-
-
-
-
-    <!-- Footer -->
-    <footer class="w-full border-t text-sm bg-white text-gray-500 dark:bg-gray-900 dark:text-gray-400 dark:border-gray-700">
-        <div class="w-full px-8 py-4 flex justify-between">
-            <span>©2025 GoonSoft Technologies Corporation. The contents of this page are confidential.</span>
-            <button id="themeToggle" class="text-gray-600 dark:text-gray-300 text-sm hover:underline">
-                Toggle Theme
-            </button>
+            <iframe src="{{ url_for('appletsindex') }}" class="applet" id="applet-iframe"></iframe>
         </div>
-    </footer>
 
-
-
-    <!-- Loading Screen -->
-    <div id="pagecover" class="fixed inset-0 z-50 flex items-center justify-center bg-gray-100 dark:bg-gray-900 transition-colors">
-        <div class="w-full max-w-md p-6 rounded-xl shadow-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-center space-y-3">
-            <h1 class="text-2xl font-semibold text-gray-800 dark:text-white">GoonOS Gateway</h1>
-            <p id="loadtext" class="text-gray-600 dark:text-gray-300">Loading... Procuring Dependencies</p>
-            <p class="text-sm text-gray-500 dark:text-gray-400">Welcome {{ user.username }}!</p>
+        <div id="footer">
+            <a>Open-Source Software. Please Redistribute!</a>
+            <div class="flexspacer"></div>
+            <a href="{{ url_for('logout' )}}">Logout</a>
         </div>
+        
+    </body>
+
+    <!--add custom right click menu-->
+
+
+    <!--very fake loading screen-->
+    <div id="pagecover">
+        <div class="flexspacer"></div>
+        <div id="loading">
+            <a id="logo">GoonOS Gateway</a>
+            <a id="loadtext">Loading.... Procuring Dependencies</a>
+            <div class="flexspacer"></div>
+            <a>Welcome {{ user.username }}!</a>
+        </div>
+        <div class="flexspacer"></div>
     </div>
 
-
-    <!-- Scripts -->
     <script>
+
+        //Define route url's and names
         const routes = {
-        botmanagement: {
-            url: "{{ url_for('botmanagement') }}",
-            name: "Bot Management"
-        },
-        chat: {
-            url: "{{ url_for('chat') }}",
-            name: "Chat"
-        },
-        steamstats: {
-            url: "{{ url_for('steamstats') }}",
-            name: "Steam Stats"
-        },
-        usermanagement: {
-            url: "{{ url_for('manage_users') }}",
-            name: "User Management" 
-        }
+            botmanagement: {
+                url: "{{ url_for('botmanagement') }}",
+                name: "Bot Management"
+            },
+            chat: {
+                url: "{{ url_for('chat') }}",
+                name: "Chat"
+            },
+            steamstats: {
+                url: "{{ url_for('steamstats') }}",
+                name: "Steam Stats"
+            }
         };
 
-        const listElement = document.getElementById("pagelist");
+        const element = document.getElementById("pagelist");
+
+        //Loop over entries in routes and create respective elements
         for (const key in routes) {
-        const item = document.createElement("button");
-       item.className = "w-full text-left px-3 py-2 rounded-md transition font-medium text-sm text-gray-800 dark:text-gray-100 hover:bg-white/40 dark:hover:bg-white/20";
-        item.id = "applet-" + key;
-        item.textContent = routes[key].name;
-        item.onclick = () => loadIframe(key);
-        listElement.appendChild(item);
-        }
+            let item = document.createElement('a')
+            item.classList.add("pagelist_item");
+            item.id = "applet-" + key ;
+            item.innerHTML = routes[key].name;
+            item.setAttribute("onclick", `loadIframe('${key}')` );
 
+            element.appendChild(item);
+        }
+        
+        //Load the iframe from the url provided in routes
         function loadIframe(routeName) {
-        const iframe = document.getElementById("applet-iframe");
-        iframe.src = routes[routeName].url;
+            const iframe = document.getElementById("applet-iframe");
+            iframe.src = routes[routeName].url;
         }
 
-        // Loading screen sequence
-
-
+        // fake loading screen
         setTimeout(() => {
-        document.getElementById("loadtext").textContent = "Loading... Initializing Services";
+            var x = document.getElementById("loadtext").innerHTML = "Loading.... Recompiling Linux Kernel";
         }, 1300);
 
         setTimeout(() => {
-        document.getElementById("loadtext").textContent = "Loading... Finalizing Interface";
+            var x = document.getElementById("loadtext").innerHTML = "Loading.... Synergizing and Streamlining";
         }, 3000);
 
         setTimeout(() => {
-        document.getElementById("pagecover").classList.add("fade-out");
+            var x = document.getElementById("pagecover");x.style.display = "none";
         }, 4000);
-
     </script>
 
-    <script>
-        const root = document.documentElement;
-        const toggleBtn = document.getElementById("themeToggle");
-
-        // Initialize theme from localStorage or system preference
-        const userTheme = localStorage.getItem("theme");
-        const systemTheme = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-        if (userTheme === "dark" || (!userTheme && systemTheme)) {
-            root.classList.add("dark");
-        } else {
-            root.classList.remove("dark");
-        }
-
-        // Toggle handler
-        toggleBtn?.addEventListener("click", () => {
-            if (root.classList.contains("dark")) {
-            root.classList.remove("dark");
-            localStorage.setItem("theme", "light");
-            } else {
-            root.classList.add("dark");
-            localStorage.setItem("theme", "dark");
-            }
-        });
-    </script>
-
-</body>
 </html>
