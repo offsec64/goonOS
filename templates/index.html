@@ -13,11 +13,15 @@
       };
     </script>
     <style>
+      body {
+        background: radial-gradient(circle at top left, #1a1a2e, #16161a, #0f0f1a);
+      }
+
       .glass {
-        background: rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.06);
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.12);
       }
 
       @keyframes fadeInUp {
@@ -31,13 +35,43 @@
         }
       }
 
+      @keyframes zoomIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      @keyframes slideInLeft {
+        from {
+          opacity: 0;
+          transform: translateX(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+
       .fade-in-up {
         animation: fadeInUp 1s ease-out both;
+      }
+
+      .zoom-in {
+        animation: zoomIn 0.8s ease-out both;
+      }
+
+      .slide-in-left {
+        animation: slideInLeft 0.9s ease-out both;
       }
     </style>
   </head>
 
-  <body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-[Inter] relative overflow-x-hidden">
+  <body class="text-white font-[Inter] relative overflow-x-hidden">
 
     <!-- Banner -->
     <div class="text-sm text-white text-center py-3 bg-gradient-to-r from-cyan-500 to-blue-500">
@@ -45,46 +79,46 @@
     </div>
 
     <!-- Hero Section -->
-    <header class="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-20 py-16 relative z-10 fade-in-up">
-      <img src="./static/images/standing-10.svg" alt="Hero Image" class="w-64 lg:w-96 mb-8 lg:mb-0" />
-      <div class="glass p-8 rounded-2xl shadow-xl max-w-2xl text-center lg:text-left">
+    <header class="flex flex-col lg:flex-row items-center justify-between px-8 lg:px-20 py-20 fade-in-up">
+      <img src="./static/images/standing-10.svg" alt="Hero Image" class="w-64 lg:w-96 mb-8 lg:mb-0 animate-fade-in" />
+      <div class="glass p-8 rounded-2xl shadow-xl max-w-2xl text-center lg:text-left slide-in-left">
         <p class="uppercase tracking-widest text-blue-400 text-sm mb-2">Telemetry • Behavior • Prediction</p>
         <h1 class="text-3xl lg:text-5xl font-extrabold mb-4">Intelligent Solutions Powered by AI</h1>
         <p class="text-gray-300">Where Cognitive AI and Machine Learning Synergize to Drive Hyper-Automation and Predictive Analytics for Unrivaled Intelligent Solutions.</p>
       </div>
     </header>
 
-    <!-- About Section -->
-    <section class="px-8 lg:px-20 py-16 space-y-12 bg-gradient-to-t from-gray-800 to-gray-900 fade-in-up">
-      <div class="glass p-8 rounded-xl shadow-lg">
+    <!-- Main Content Section -->
+    <section class="px-8 lg:px-20 space-y-12 py-16">
+      <div class="glass p-8 rounded-xl shadow-lg zoom-in">
         <h2 class="text-2xl font-bold mb-4">What We Do</h2>
-        <p class="text-gray-300">GoonTech™ propels forward-thinking enterprises into a new era of optimized operationalization through the strategic deployment of advanced analytical frameworks...</p>
+        <p class="text-gray-300">GoonTech™ propels forward-thinking enterprises into a new era of optimized operationalization through the strategic deployment of advanced analytical frameworks. We leverage next-generation methodologies to deconstruct complex data landscapes, fostering a profound understanding of intricate systemic interactions.</p>
       </div>
-      <div class="glass p-8 rounded-xl shadow-lg">
+      <div class="glass p-8 rounded-xl shadow-lg fade-in-up">
         <h2 class="text-2xl font-bold mb-4">Why GoonTech™</h2>
-        <p class="text-gray-300">Our core competency lies in the architecting of scalable solutions that empower organizations to harness the transformative potential of granular data sets...</p>
+        <p class="text-gray-300">We specialize in predictive intelligence, delivering actionable foresight that recalibrates strategic trajectories. Our platforms facilitate dynamic insights that transcend conventional paradigms, driving sustainable outcomes for clients worldwide.</p>
       </div>
     </section>
 
     <!-- Founder Story -->
-    <section class="px-8 lg:px-20 py-16 space-y-16 bg-gradient-to-br from-gray-900 to-black">
-      <div class="flex flex-col lg:flex-row items-center gap-8 fade-in-up">
+    <section class="px-8 lg:px-20 py-16 space-y-16">
+      <div class="flex flex-col lg:flex-row items-center gap-8 zoom-in">
         <img src="./static/images/sitting-3.svg" class="w-60" />
         <div class="glass p-6 rounded-xl">
           <h3 class="text-xl font-semibold mb-2">The Genesis of GoonTech™</h3>
-          <p class="text-gray-300">Founded by a computational neuroscientist and an ethical AI pioneer, GoonTech™ was born from a passion for data-driven empathy in gaming and beyond...</p>
+          <p class="text-gray-300">Founded by a computational neuroscientist and an ethical AI pioneer, GoonTech™ was born from a passion for data-driven empathy in gaming and beyond.</p>
         </div>
       </div>
       <div class="flex flex-col lg:flex-row-reverse items-center gap-8 fade-in-up">
         <img src="./static/images/standing-19.svg" class="w-60" />
         <div class="glass p-6 rounded-xl">
           <h3 class="text-xl font-semibold mb-2">A Shared Vision</h3>
-          <p class="text-gray-300">With a vision for a more thoughtful digital world, GoonTech™ combines neuroscience and ethical AI to build tech that uplifts communities...</p>
+          <p class="text-gray-300">With a vision for a more thoughtful digital world, GoonTech™ combines neuroscience and ethical AI to build tech that uplifts communities and enhances well-being.</p>
         </div>
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Footer (separate solid section) -->
     <footer class="px-8 lg:px-20 py-8 text-gray-400 text-sm bg-gray-950 border-t border-gray-700">
       <div class="flex flex-col lg:flex-row justify-between items-start gap-6">
         <div>
@@ -104,7 +138,7 @@
 
     <!-- Animated Popup -->
     <div id="popup1" class="hidden fixed inset-0 bg-black/60 flex items-center justify-center z-50">
-      <div class="glass p-6 rounded-xl w-[90%] max-w-lg shadow-2xl space-y-4 text-center">
+      <div class="glass p-6 rounded-xl w-[90%] max-w-lg shadow-2xl space-y-4 text-center zoom-in">
         <img src="./static/images/goonmobile.png" class="mx-auto w-32" />
         <h2 class="text-xl font-semibold text-white">🚗 GoonMobile™ – Your AI Co-Pilot</h2>
         <p class="text-gray-300">Get 10% off our newest product that brings AI to your vehicle!</p>
