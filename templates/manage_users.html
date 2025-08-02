@@ -8,10 +8,23 @@
 <body class="bg-gray-100 min-h-screen p-6">
 
   <div class="max-w-5xl mx-auto bg-white p-6 rounded-lg shadow">
-    <h1 class="text-2xl font-bold mb-4">User Management</h1>
+    <h1 class="text-2xl font-bold mb-6">User Management</h1>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="mb-4">
+          {% for category, message in messages %}
+            <div class="px-4 py-2 rounded text-white {{ 'bg-green-500' if category == 'success' else 'bg-red-500' }}">
+              {{ message }}
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
 
     <!-- Search -->
-    <form method="get" class="mb-4 flex gap-2">
+    <form method="get" class="mb-6 flex gap-2">
       <input type="text" name="q" value="{{ q }}" placeholder="Search users..."
              class="px-3 py-2 border rounded w-full">
       <button type="submit"
@@ -19,6 +32,25 @@
         Search
       </button>
     </form>
+
+    <!-- Add User -->
+    <div class="mb-8">
+      <h2 class="text-lg font-semibold mb-2">Create New User</h2>
+      <form method="post" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <input type="text" name="new_username" placeholder="Username"
+               class="px-3 py-2 border rounded" required>
+        <input type="password" name="new_password" placeholder="Password"
+               class="px-3 py-2 border rounded" required>
+        <select name="new_role" class="px-3 py-2 border rounded">
+          <option value="user">User</option>
+          <option value="admin">Admin</option>
+        </select>
+        <button type="submit"
+                class="sm:col-span-3 bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+          Create User
+        </button>
+      </form>
+    </div>
 
     <!-- Table -->
     <table class="w-full table-auto border-collapse">
@@ -38,17 +70,10 @@
             {% if user.id != current_user.id %}
             <form method="post" class="flex flex-wrap gap-2 items-center">
               <input type="hidden" name="user_id" value="{{ user.id }}">
-              {% if user.role != 'admin' %}
-              <button name="action" value="promote"
+              <button name="action" value="{{ 'promote' if user.role != 'admin' else 'demote' }}"
                       class="bg-blue-500 text-white px-2 py-1 rounded hover:bg-blue-600 text-xs">
-                Promote
+                {{ 'Promote' if user.role != 'admin' else 'Demote' }}
               </button>
-              {% else %}
-              <button name="action" value="demote"
-                      class="bg-gray-500 text-white px-2 py-1 rounded hover:bg-gray-600 text-xs">
-                Demote
-              </button>
-              {% endif %}
               <button name="action" value="delete"
                       onclick="return confirm('Are you sure?')"
                       class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600 text-xs">

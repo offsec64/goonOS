@@ -20,6 +20,7 @@ import mysql.connector
 from datetime import datetime
 from dotenv import load_dotenv
 from user_agents import parse as parse_ua
+from werkzeug.security import generate_password_hash
 
 # Load and define environment variables from .env file
 load_dotenv()
@@ -186,12 +187,13 @@ def reveal_ip():
 @login_required
 @role_required('admin')
 def manage_users():
-    if request.method == 'POST':
+    # Handle role update or deletion
+    if request.method == 'POST' and 'user_id' in request.form:
         user_id = request.form.get('user_id')
         action = request.form.get('action')
         user = User.query.get(user_id)
 
-        if user and str(user.id) != str(current_user.id):  # prevent self action
+        if user and str(user.id) != str(current_user.id):  # prevent self-action
             if action == 'promote':
                 user.role = 'admin'
             elif action == 'demote':
@@ -201,6 +203,23 @@ def manage_users():
             db.session.commit()
         return redirect(url_for('manage_users', q=request.args.get('q', ''), page=request.args.get('page', 1)))
 
+    # Handle new user creation
+    if request.method == 'POST' and 'new_username' in request.form:
+        new_username = request.form['new_username']
+        new_password = request.form['new_password']
+        new_role = request.form.get('new_role', 'user')
+        if new_username and new_password:
+            if User.query.filter_by(username=new_username).first():
+                flash('Username already exists.', 'error')
+            else:
+                hashed_pw = generate_password_hash(new_password)
+                new_user = User(username=new_username, password=hashed_pw, role=new_role)
+                db.session.add(new_user)
+                db.session.commit()
+                flash('User created successfully.', 'success')
+        return redirect(url_for('manage_users'))
+
+    # Filtering & Pagination
     query = User.query
     search_term = request.args.get('q', '')
     if search_term:
