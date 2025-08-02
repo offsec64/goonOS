@@ -213,7 +213,7 @@ def manage_users():
                 flash('Username already exists.', 'error')
             else:
                 hashed_pw = generate_password_hash(new_password)
-                new_user = User(username=new_username, password=hashed_pw, role=new_role)
+                new_user = User(username=new_username, password_hash=hashed_pw, role=new_role)
                 db.session.add(new_user)
                 db.session.commit()
                 flash('User created successfully.', 'success')
